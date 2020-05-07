@@ -188,6 +188,9 @@ tracer(0)
 drawTree(a)
 
 update()
+# ts = getscreen()
+
+# ts.getcanvas().postscript(file="duck.eps")
 done()
 
 # 结束
