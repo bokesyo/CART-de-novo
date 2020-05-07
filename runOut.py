@@ -12,9 +12,22 @@ sys.setrecursionlimit(999999)
 
 data_dict = readCSV()
 
+print('def regtree(a):')
+print('    fixed_acidity = a[0]')
+print('    volatile_acidity = a[1]')
+print('    citric_acid = a[2]')
+print('    residual_sugar = a[3]')
+print('    chlorides = a[4]')
+print('    free_sulfur_dioxide = a[5]')
+print('    total_sulfur_dioxide = a[6]')
+print('    density = a[7]')
+print('    pH = a[8]')
+print('    sulphates = a[9]')
+print('    alcohol = a[10]')
+
 
 # stack module
-indent = -1
+indent = 0
 
 
 # 生长函数
@@ -41,7 +54,7 @@ def grow(back, id_list):
 
     if jufgeIfPure(data_list_by_pointer):
         result = average(getTarget(id_list))
-        print(' ' * 4 * (indent + 1) + 'score = ' + str(result))
+        print(' ' * 4 * (indent + 1) + 'return ' + str(result))
         return
     
     # 左节点数据表
