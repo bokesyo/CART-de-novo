@@ -1,6 +1,6 @@
 # 引进计算函数
 
-from project.regreCalcFunction import *
+from regreCalcFunction import *
 
 # 设置最大递归次数
 
