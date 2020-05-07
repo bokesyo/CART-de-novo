@@ -4,9 +4,9 @@ from turtle import *
 
 tree = Turtle()
 screen = Screen()
-screen.screensize(3000, 3000)
+screen.screensize(5000, 5000)
 
-ext = 1000
+ext = 4000
 
 
 def getFloor(node):
@@ -18,7 +18,7 @@ def getFloor(node):
 
 
 def calFloor(n):
-    return ext / n
+    return ext / 2 ** n
 
 
 def drawTree(node):
