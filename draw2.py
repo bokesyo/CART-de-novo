@@ -18,6 +18,8 @@ tree.goto(0, 500)
 
 tree.pendown()
 update()
+
+
 def getFloor(node):
     count = 0
     while node:
@@ -52,6 +54,7 @@ def left_forward(node):
     except:
         pass
     identity = str(node.name)
+    ID = str(node.ID)
     tree.fd(20)
     tree.left(90)
     tree.fd(calFloor(n))
@@ -70,7 +73,7 @@ def left_forward(node):
     tree.right(90)
     tree.penup()
     tree.fd(20)
-    tree.write(condition)
+    tree.write(condition + ID)
     tree.fd(20)
     tree.pendown()
 
@@ -94,6 +97,7 @@ def right_forward(node):
     n = getFloor(node)
     condition = str(node.condition)
     identity = str(node.name)
+    ID = str(node.ID)
     tree.fd(20)
     tree.right(90)
     tree.fd(calFloor(n))
@@ -112,7 +116,7 @@ def right_forward(node):
     tree.left(90)
     tree.penup()
     tree.fd(20)
-    tree.write(condition)
+    tree.write(condition + ID)
     tree.fd(20)
     tree.pendown()
 
@@ -136,8 +140,10 @@ a = local_cache()
 tree_root = a['tree_root']
 
 tracer(0)
+k = tree_root
+k.parent = None
 # 把跟节点放到函数输入
-drawTree(tree_root)
+drawTree(k)
 
 update()
 ts = getscreen()

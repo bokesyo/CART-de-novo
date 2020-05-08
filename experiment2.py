@@ -26,16 +26,19 @@ class local_cache:
 
 # 引进计算函数
 
+
 from regreCalcFunction2 import *
+
 
 from treeClass import *
 
+
 # 设置最大递归次数
+
 
 import sys
 
 sys.setrecursionlimit(999999)
-
 
 # 导入数据
 
@@ -54,12 +57,12 @@ print('    pH = a[8]')
 print('    sulphates = a[9]')
 print('    alcohol = a[10]')
 
-
 # stack module
 indent = 0
 
 node_count = 0
 tree = Tree()
+
 
 # 生长函数
 
@@ -75,7 +78,7 @@ def grow(back, id_list, node=None, mode=None):
         back = pointerChoose(id_list, 's')
 
     # 获取指标代码，获取切分点
-    
+
     pointer = back[0]
     cut_point = back[1]
 
@@ -95,7 +98,7 @@ def grow(back, id_list, node=None, mode=None):
             node.right = Node(node_count, node, None, None, result, id_list)
         print(' ' * 4 * (indent + 1) + 'return ' + str(result))
         return
-    
+
     # 左节点数据表
 
     left_division_list = []
@@ -114,7 +117,8 @@ def grow(back, id_list, node=None, mode=None):
 
     # 左节点的处理
     node_count += 1  # 新的左节点
-    node.left = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]), left_division_list)
+    node.left = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]),
+                     left_division_list)
     indent += 1
     print(' ' * 4 * indent + 'if ' + str(pointer_name[back[0]]) + ' < ' + str(back[1]) + ':')
     print(' ' * 4 * (indent + 1) + 'a = ' + str(left_division_list))
@@ -129,7 +133,7 @@ def grow(back, id_list, node=None, mode=None):
     # 右节点的处理
 
     node_count += 1  # 新的右节点
-    node.right = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]),
+    node.right = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' >= ' + str(back[1]),
                       right_division_list)
 
     print(' ' * 4 * indent + 'else: ')
@@ -139,6 +143,7 @@ def grow(back, id_list, node=None, mode=None):
 
     grow(back2, right_division_list, node.right, 'r')  # 进行新一轮生长
     indent -= 1
+
 
 #
 #
@@ -153,7 +158,6 @@ countbg = 0
 
 grow('ini', id_list)
 
-
 # 结束
 #
 #
@@ -161,5 +165,150 @@ grow('ini', id_list)
 tree_root = tree.root
 
 
-a = local_cache()
-a['tree_root'] = tree_root
+from localCache import *
+
+from turtle import *
+
+tree = Turtle()
+screen = Screen()
+
+screensize(1000, 1000)
+
+
+ext = 1000
+tracer(0)
+tree.right(90)
+tree.penup()
+tree.goto(0, 500)
+
+tree.pendown()
+update()
+
+
+def getFloor(node):
+    count = 0
+    while node:
+        node = node.parent
+        count += 1
+    return count
+
+
+def calFloor(n):
+    return ext * (1/2) ** n
+
+
+def drawTree(node):
+    if node.left:
+        left_forward(node.left)
+        drawTree(node.left)
+        left_back(node.left)
+    if node.right:
+        right_forward(node.right)
+        drawTree(node.right)
+        right_back(node.right)
+    return
+
+
+def left_forward(node):
+    tree.pensize(1)
+    tree.pencolor('red')
+    n = getFloor(node)
+    condition = str(node.condition)
+    identity = str(node.name)
+    ID = str(node.ID)
+    tree.fd(20)
+    tree.left(90)
+    tree.fd(calFloor(n))
+    tree.right(90)
+    tree.fd(20)
+    tree.left(90)
+    tree.fd(20)
+    tree.right(90)
+    tree.fd(40)
+    tree.right(90)
+    tree.fd(40)
+    tree.right(90)
+    tree.fd(40)
+    tree.right(90)
+    tree.fd(20)
+    tree.right(90)
+    tree.penup()
+    tree.fd(20)
+    tree.write(condition)
+    tree.fd(20)
+    tree.pendown()
+
+
+def left_back(node):
+    n = getFloor(node)
+    tree.penup()
+    tree.right(180)
+    tree.fd(60)
+    tree.left(90)
+    tree.fd(calFloor(n))
+    tree.right(90)
+    tree.fd(20)
+    tree.pendown()
+    tree.right(180)
+
+
+def right_forward(node):
+    tree.pencolor('blue')
+    tree.pensize(1)
+    n = getFloor(node)
+    condition = str(node.condition)
+    identity = str(node.name)
+    ID = str(node.ID)
+    tree.fd(20)
+    tree.right(90)
+    tree.fd(calFloor(n))
+    tree.left(90)
+    tree.fd(20)
+    tree.right(90)
+    tree.fd(20)
+    tree.left(90)
+    tree.fd(40)
+    tree.left(90)
+    tree.fd(40)
+    tree.left(90)
+    tree.fd(40)
+    tree.left(90)
+    tree.fd(20)
+    tree.left(90)
+    tree.penup()
+    tree.fd(20)
+    tree.write(condition)
+    tree.fd(20)
+    tree.pendown()
+
+
+def right_back(node):
+    n = getFloor(node)
+    tree.penup()
+    tree.left(180)
+    tree.fd(60)
+    tree.right(90)
+    tree.fd(calFloor(n))
+    tree.left(90)
+    tree.fd(20)
+    tree.pendown()
+    tree.left(180)
+
+
+# 开始！
+
+
+tracer(0)
+k = tree_root
+
+drawTree(k)
+
+update()
+ts = getscreen()
+
+ts.getcanvas().postscript(file="duck.eps")
+done()
+
+
+# 结束
+
