@@ -1,13 +1,23 @@
 
+
+from localCache import *
+
 from turtle import *
 
 tree = Turtle()
 screen = Screen()
-screen.screensize(5000, 5000)
 
-ext = 4000
+screensize(1000, 1000)
 
 
+ext = 1000
+tracer(0)
+tree.right(90)
+tree.penup()
+tree.goto(0, 500)
+
+tree.pendown()
+update()
 def getFloor(node):
     count = 0
     while node:
@@ -17,7 +27,7 @@ def getFloor(node):
 
 
 def calFloor(n):
-    return ext / 2 ** n
+    return ext * (1/2) ** n
 
 
 def drawTree(node):
@@ -36,7 +46,7 @@ def left_forward(node):
     tree.pensize(1)
     tree.pencolor('red')
     n = getFloor(node)
-    condition = str(node.condition)
+    condition = 'NOT ' + str(node.condition)
     identity = str(node.name)
     tree.fd(20)
     tree.left(90)
@@ -55,9 +65,9 @@ def left_forward(node):
     tree.fd(20)
     tree.right(90)
     tree.penup()
-    tree.fd(5)
-    tree.write(identity + '\n' + condition)
-    tree.fd(35)
+    tree.fd(20)
+    tree.write(condition)
+    tree.fd(20)
     tree.pendown()
 
 
@@ -97,9 +107,9 @@ def right_forward(node):
     tree.fd(20)
     tree.left(90)
     tree.penup()
-    tree.fd(5)
-    tree.write(identity + '\n' + condition)
-    tree.fd(35)
+    tree.fd(20)
+    tree.write(condition)
+    tree.fd(20)
     tree.pendown()
 
 
@@ -118,14 +128,23 @@ def right_back(node):
 
 # 开始！
 
+a = local_cache()
+tree_root = a['tree_root']
+
 tracer(0)
 # 把跟节点放到函数输入
-drawTree(a)
+drawTree(tree_root)
 
 update()
-# ts = getscreen()
+ts = getscreen()
 
-# ts.getcanvas().postscript(file="duck.eps")
+ts.getcanvas().postscript(file="duck.eps")
 done()
 
+
+
+
 # 结束
+
+
+

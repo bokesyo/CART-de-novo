@@ -1,10 +1,39 @@
+import shelve
+from contextlib import closing
+
+
+class local_cache:
+    def __init__(self, cache='var.pkl'):
+        self.cache = cache
+
+    def __setitem__(self, key, value):
+        """
+        key: 变量名
+        value: 变量值
+        cache: 缓存名
+        """
+        with closing(shelve.open(self.cache, 'c')) as shelf:
+            shelf[key] = value
+
+    def __getitem__(self, key):
+        """
+        key : 变量名
+        return：变量值
+        """
+        with closing(shelve.open(self.cache, 'r')) as shelf:
+            return shelf[key]
+
+
 # 引进计算函数
 
 from regreCalcFunction2 import *
 
+from treeClass import *
+
 # 设置最大递归次数
 
 import sys
+
 sys.setrecursionlimit(999999)
 
 
@@ -29,15 +58,20 @@ print('    alcohol = a[10]')
 # stack module
 indent = 0
 
+node_count = 0
+tree = Tree()
 
 # 生长函数
 
-def grow(back, id_list):
+
+def grow(back, id_list, node=None, mode=None):
     global countsm
     global countbg
     global indent
+    global node_count
 
     if back == 'ini':
+        node = tree.add_root(node_count)
         back = pointerChoose(id_list, 's')
 
     # 获取指标代码，获取切分点
@@ -54,6 +88,11 @@ def grow(back, id_list):
 
     if jufgeIfPure(data_list_by_pointer):
         result = average(getTarget(id_list))
+        node_count += 1
+        if mode == 'l':
+            node.left = Node(node_count, node, None, None, result, id_list)
+        elif mode == 'r':
+            node.right = Node(node_count, node, None, None, result, id_list)
         print(' ' * 4 * (indent + 1) + 'return ' + str(result))
         return
     
@@ -74,8 +113,8 @@ def grow(back, id_list):
             right_division_list.append(item[0])
 
     # 左节点的处理
-
-    countsm += 1  # 新的左节点
+    node_count += 1  # 新的左节点
+    node.left = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]), left_division_list)
     indent += 1
     print(' ' * 4 * indent + 'if ' + str(pointer_name[back[0]]) + ' < ' + str(back[1]) + ':')
 
@@ -85,17 +124,19 @@ def grow(back, id_list):
 
     # 递归
 
-    grow(back1, left_division_list)  # 进行新一轮生长
+    grow(back1, left_division_list, node.left, 'l')  # 进行新一轮生长
 
     # 右节点的处理
 
-    countbg += 1  # 新的右节点
+    node_count += 1  # 新的右节点
+    node.right = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]),
+                      right_division_list)
 
     print(' ' * 4 * indent + 'else: ')
 
     back2 = pointerChoose(right_division_list, 'r')  # 获取新一轮的区分指标
 
-    grow(back2, right_division_list)  # 进行新一轮生长
+    grow(back2, right_division_list, node.right, 'r')  # 进行新一轮生长
     indent -= 1
 
 #
@@ -116,3 +157,8 @@ grow('ini', id_list)
 #
 #
 #
+tree_root = tree.root
+
+
+a = local_cache()
+a['tree_root'] = tree_root
