@@ -46,7 +46,11 @@ def left_forward(node):
     tree.pensize(1)
     tree.pencolor('red')
     n = getFloor(node)
-    condition = 'NOT ' + str(node.condition)
+    condition = str(node.condition)
+    try:
+        condition = condition.replace('<', '>=')
+    except:
+        pass
     identity = str(node.name)
     tree.fd(20)
     tree.left(90)
