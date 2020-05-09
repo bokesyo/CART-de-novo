@@ -3,7 +3,7 @@ from contextlib import closing
 
 
 class local_cache:
-    def __init__(self, cache='var.pkl'):
+    def __init__(self, cache='default'):
         self.cache = cache
 
     def __setitem__(self, key, value):

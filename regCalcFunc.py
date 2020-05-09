@@ -1,44 +1,8 @@
 
-
-# 栈类
-class Stack:
-    def __init__(self):
-        self.__data = list()
-
-    def __len__(self):
-        return len(self.__data)
-
-    def isEmpty(self):
-        return len(self.__data) == 0
-
-    def push(self, e):
-        self.__data.append(e)
-
-    def top(self):
-        if self.isEmpty():
-            print('Stack is empty')
-        else:
-            return self.__data[self.__len__() - 1]
-
-    def pop(self):
-        if self.isEmpty():
-            print('Stack is empty')
-        else:
-            value = self.__data[self.__len__() - 1]
-            del self.__data[self.__len__() - 1]
-            return value
-#
-#
-#
-
-
-#
-#
-# 读取数据文件
 def readCSV():
     global data_dict
     # 自定义文件名
-    filename = 'train.csv'
+    filename = 'inputData/train.csv'
     # 列的个数，手动修改
     length = 12
     # 读取每行，临时存储
@@ -71,6 +35,7 @@ def readCSV():
         data_dict[i - 1] = [new_this_list, target]
         i = i + 1
     return data_dict
+#
 #
 #
 #
@@ -202,7 +167,7 @@ def getPointerData(pointer_num, id_list):
 #
 #
 # 选择本轮最优指标
-def pointerChoose(id_list):
+def pointerChoose(id_list, mode):
     # 用来装入各个指标的方差的列表
     result_by_pointer_list = []
     # 生成可用指标列表
@@ -224,7 +189,6 @@ def pointerChoose(id_list):
         else:
             if result_pointer[2] <= result_min_pointer[2]:
                 result_min_pointer = result_pointer
-    print('#' + str(pointer_name[result_min_pointer[0]]) + '# $' + str(result_min_pointer[1]) + '$', end=' ')
     return result_min_pointer
     # 返回[最小方差所对应的指标 和 对应的最小方差]
 
@@ -259,6 +223,25 @@ def jufgeIfPure(in_list):
             if i != j:
                 return False
     return True
+#
+#
+#
 
 
-pointer_name = ['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide', 'total sulfur dioxide', 'density', 'pH', 'sulphates', 'alcohol', 'quality']
+#
+#
+#
+# 输入：指标代码，酒的编号列表
+def getTarget(id_list):
+    out_list = []
+    for lid in id_list:
+        list_by_id = data_dict[lid]
+        target = list_by_id[1]
+        out_list.append(target)
+    return out_list
+# 返回一个含有全部 指定指标数值 的列表[1, 3, 5.5, 7.6]
+#
+#
+#
+
+

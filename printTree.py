@@ -1,11 +1,22 @@
 
+from localCache import *
+
 from turtle import *
 
 tree = Turtle()
 screen = Screen()
-screen.screensize(5000, 5000)
 
-ext = 4000
+screensize(1000, 1000)
+
+
+ext = 1000
+tracer(0)
+tree.right(90)
+tree.penup()
+tree.goto(0, 500)
+
+tree.pendown()
+update()
 
 
 def getFloor(node):
@@ -17,7 +28,7 @@ def getFloor(node):
 
 
 def calFloor(n):
-    return ext / 2 ** n
+    return ext * (1/2) ** n
 
 
 def drawTree(node):
@@ -34,38 +45,55 @@ def drawTree(node):
 
 def left_forward(node):
     tree.pensize(1)
-    tree.pencolor('red')
+    tree.pencolor('blue')
     n = getFloor(node)
     condition = str(node.condition)
     identity = str(node.name)
+    ID = str(node.ID)
     tree.fd(20)
     tree.left(90)
     tree.fd(calFloor(n))
     tree.right(90)
     tree.fd(20)
-    tree.left(90)
-    tree.fd(20)
-    tree.right(90)
-    tree.fd(40)
-    tree.right(90)
-    tree.fd(40)
-    tree.right(90)
-    tree.fd(40)
-    tree.right(90)
-    tree.fd(20)
-    tree.right(90)
-    tree.penup()
-    tree.fd(5)
-    tree.write(identity + '\n' + condition)
-    tree.fd(35)
-    tree.pendown()
+    # 开始正方形
+    #tree.left(90)
+    #tree.fd(20)
+    #tree.right(90)
+    #tree.fd(40)
+    #tree.right(90)
+    #tree.fd(40)
+    #tree.right(90)
+    #tree.fd(40)
+    #tree.right(90)
+    #tree.fd(20)
+    #tree.right(90)
+    # 结束正方形
+    #
+    #tree.fd(20)
+    #
+    #tree.penup()
+
+
+    if node.type == 'terminal':
+        tree.pencolor('white')
+        tree.fd(20)
+        tree.pencolor('blue')
+        pass
+    else:
+        tree.fd(20)
+        tree.fd(20)
+    tree.write(condition)
+    #tree.pendown()
 
 
 def left_back(node):
     n = getFloor(node)
     tree.penup()
     tree.right(180)
-    tree.fd(60)
+    if node.type == 'terminal':
+        tree.fd(40)
+    else:
+        tree.fd(60)
     tree.left(90)
     tree.fd(calFloor(n))
     tree.right(90)
@@ -75,39 +103,57 @@ def left_back(node):
 
 
 def right_forward(node):
-    tree.pencolor('blue')
+    tree.pencolor('red')
     tree.pensize(1)
     n = getFloor(node)
     condition = str(node.condition)
     identity = str(node.name)
+    ID = str(node.ID)
     tree.fd(20)
     tree.right(90)
     tree.fd(calFloor(n))
     tree.left(90)
     tree.fd(20)
-    tree.right(90)
-    tree.fd(20)
-    tree.left(90)
-    tree.fd(40)
-    tree.left(90)
-    tree.fd(40)
-    tree.left(90)
-    tree.fd(40)
-    tree.left(90)
-    tree.fd(20)
-    tree.left(90)
-    tree.penup()
-    tree.fd(5)
-    tree.write(identity + '\n' + condition)
-    tree.fd(35)
-    tree.pendown()
+    #
+    #tree.right(90)
+    #tree.fd(20)
+    #tree.left(90)
+    #tree.fd(40)
+    #tree.left(90)
+    #tree.fd(40)
+    #tree.left(90)
+    #tree.fd(40)
+    #tree.left(90)
+    #tree.fd(20)
+    #tree.left(90)
+    #
+    #tree.fd(20)
+    #
+    #tree.penup()
+
+
+    if node.type == 'terminal':
+        tree.pencolor('white')
+        tree.fd(20)
+        tree.pencolor('red')
+        pass
+    else:
+        tree.fd(20)
+        tree.fd(20)
+    tree.write(condition)
+
+
+    #tree.pendown()
 
 
 def right_back(node):
     n = getFloor(node)
     tree.penup()
     tree.left(180)
-    tree.fd(60)
+    if node.type == 'terminal':
+        tree.fd(40)
+    else:
+        tree.fd(60)
     tree.right(90)
     tree.fd(calFloor(n))
     tree.left(90)
@@ -117,15 +163,23 @@ def right_back(node):
 
 
 # 开始！
+a = local_cache()
+tree_root = a['tree_root']
 
+tree.hideturtle()
 tracer(0)
-# 把跟节点放到函数输入
-drawTree(a)
+k = tree_root
+k.parent = None
+
+drawTree(k)
 
 update()
-# ts = getscreen()
 
-# ts.getcanvas().postscript(file="duck.eps")
+ts = getscreen()
+
+ts.getcanvas().postscript(file="duck.eps")
 done()
 
+
 # 结束
+
