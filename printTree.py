@@ -1,20 +1,22 @@
 
-from localCache import *
+# Read the tree object we generated before
+from classRef.localCache import *
 
+# Use turtle to draw a tree
 from turtle import *
 
 tree = Turtle()
 screen = Screen()
 
+# Set scale
 screensize(1000, 1000)
-
-
 ext = 1000
+
+# Turtle goto the top of the screen
 tracer(0)
 tree.right(90)
 tree.penup()
 tree.goto(0, 500)
-
 tree.pendown()
 update()
 
@@ -31,18 +33,6 @@ def calFloor(n):
     return ext * (1/2) ** n
 
 
-def drawTree(node):
-    if node.left:
-        left_forward(node.left)
-        drawTree(node.left)
-        left_back(node.left)
-    if node.right:
-        right_forward(node.right)
-        drawTree(node.right)
-        right_back(node.right)
-    return
-
-
 def left_forward(node):
     tree.pensize(1)
     tree.pencolor('blue')
@@ -55,24 +45,6 @@ def left_forward(node):
     tree.fd(calFloor(n))
     tree.right(90)
     tree.fd(20)
-    # 开始正方形
-    #tree.left(90)
-    #tree.fd(20)
-    #tree.right(90)
-    #tree.fd(40)
-    #tree.right(90)
-    #tree.fd(40)
-    #tree.right(90)
-    #tree.fd(40)
-    #tree.right(90)
-    #tree.fd(20)
-    #tree.right(90)
-    # 结束正方形
-    #
-    #tree.fd(20)
-    #
-    #tree.penup()
-
 
     if node.type == 'terminal':
         tree.pencolor('white')
@@ -83,7 +55,6 @@ def left_forward(node):
         tree.fd(20)
         tree.fd(20)
     tree.write(condition)
-    #tree.pendown()
 
 
 def left_back(node):
@@ -114,23 +85,6 @@ def right_forward(node):
     tree.fd(calFloor(n))
     tree.left(90)
     tree.fd(20)
-    #
-    #tree.right(90)
-    #tree.fd(20)
-    #tree.left(90)
-    #tree.fd(40)
-    #tree.left(90)
-    #tree.fd(40)
-    #tree.left(90)
-    #tree.fd(40)
-    #tree.left(90)
-    #tree.fd(20)
-    #tree.left(90)
-    #
-    #tree.fd(20)
-    #
-    #tree.penup()
-
 
     if node.type == 'terminal':
         tree.pencolor('white')
@@ -141,9 +95,6 @@ def right_forward(node):
         tree.fd(20)
         tree.fd(20)
     tree.write(condition)
-
-
-    #tree.pendown()
 
 
 def right_back(node):
@@ -162,24 +113,29 @@ def right_back(node):
     tree.left(180)
 
 
-# 开始！
-a = local_cache()
-tree_root = a['tree_root']
+def drawTree(node):
+    if node.left:
+        left_forward(node.left)
+        drawTree(node.left)
+        left_back(node.left)
+    if node.right:
+        right_forward(node.right)
+        drawTree(node.right)
+        right_back(node.right)
+    return
+
+
+data = local_cache('dataStorge/primaryTreeObject')
+tree_root = data['tree_root']
 
 tree.hideturtle()
 tracer(0)
 k = tree_root
 k.parent = None
-
 drawTree(k)
-
 update()
 
-ts = getscreen()
-
-ts.getcanvas().postscript(file="duck.eps")
+scrren_shot = getscreen()
+scrren_shot.getcanvas().postscript(file="output/treePrint.eps")
 done()
-
-
-# 结束
 
