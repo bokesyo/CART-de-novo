@@ -1,6 +1,9 @@
 import shelve
 from contextlib import closing
 
+filehandle = open("execute.py", "w")
+filehandle.write('')
+filehandle = open("execute.py", "a")
 
 class local_cache:
     def __init__(self, cache='var.pkl'):
@@ -44,18 +47,19 @@ sys.setrecursionlimit(999999)
 
 data_dict = readCSV()
 
-print('def regtree(a):')
-print('    fixed_acidity = a[0]')
-print('    volatile_acidity = a[1]')
-print('    citric_acid = a[2]')
-print('    residual_sugar = a[3]')
-print('    chlorides = a[4]')
-print('    free_sulfur_dioxide = a[5]')
-print('    total_sulfur_dioxide = a[6]')
-print('    density = a[7]')
-print('    pH = a[8]')
-print('    sulphates = a[9]')
-print('    alcohol = a[10]')
+
+filehandle.write('def classifier(data_list):\n')
+filehandle.write('    fixed_acidity = data_list[0]\n')
+filehandle.write('    volatile_acidity = data_list[1]\n')
+filehandle.write('    citric_acid = data_list[2]\n')
+filehandle.write('    residual_sugar = data_list[3]\n')
+filehandle.write('    chlorides = data_list[4]\n')
+filehandle.write('    free_sulfur_dioxide = data_list[5]\n')
+filehandle.write('    total_sulfur_dioxide = data_list[6]\n')
+filehandle.write('    density = data_list[7]\n')
+filehandle.write('    pH = data_list[8]\n')
+filehandle.write('    sulphates = data_list[9]\n')
+filehandle.write('    alcohol = data_list[10]\n')
 
 # stack module
 indent = 0
@@ -77,6 +81,7 @@ def grow(back, id_list, node=None, mode=None):
         node = tree.add_root(node_count)
         back = pointerChoose(id_list, 's')
 
+
     # 获取指标代码，获取切分点
 
     pointer = back[0]
@@ -93,10 +98,10 @@ def grow(back, id_list, node=None, mode=None):
         result = average(getTarget(id_list))
         node_count += 1
         if mode == 'l':
-            node.left = Node(node_count, node, None, None, result, id_list)
+            node.left = Node(node_count, node, None, None, str(result), id_list, 'terminal')
         elif mode == 'r':
-            node.right = Node(node_count, node, None, None, result, id_list)
-        print(' ' * 4 * (indent + 1) + 'return ' + str(result))
+            node.right = Node(node_count, node, None, None, str(result), id_list, 'terminal')
+        filehandle.write((' ' * 4 * (indent + 1) + 'return ' + str(result)) + '\n')
         return
 
     # 左节点数据表
@@ -120,8 +125,8 @@ def grow(back, id_list, node=None, mode=None):
     node.left = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]),
                      left_division_list)
     indent += 1
-    print(' ' * 4 * indent + 'if ' + str(pointer_name[back[0]]) + ' < ' + str(back[1]) + ':')
-    print(' ' * 4 * (indent + 1) + 'a = ' + str(left_division_list))
+    filehandle.write((' ' * 4 * indent + 'if ' + str(pointer_name[back[0]]) + ' < ' + str(back[1]) + ':') + '\n')
+    # print(' ' * 4 * (indent + 1) + 'a = ' + str(left_division_list))
     # 判断这一组数据用什么「切分」最好
 
     back1 = pointerChoose(left_division_list, 'l')  # 获取新一轮的区分指标
@@ -136,8 +141,8 @@ def grow(back, id_list, node=None, mode=None):
     node.right = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' >= ' + str(back[1]),
                       right_division_list)
 
-    print(' ' * 4 * indent + 'else: ')
-    print(' ' * 4 * (indent + 1) + 'a = ' + str(right_division_list))
+    filehandle.write((' ' * 4 * indent + 'else: ') + '\n')
+    # print(' ' * 4 * (indent + 1) + 'a = ' + str(right_division_list))
 
     back2 = pointerChoose(right_division_list, 'r')  # 获取新一轮的区分指标
 
@@ -164,6 +169,7 @@ grow('ini', id_list)
 #
 tree_root = tree.root
 
+filehandle.close()
 
 from localCache import *
 
@@ -211,7 +217,7 @@ def drawTree(node):
 
 def left_forward(node):
     tree.pensize(1)
-    tree.pencolor('red')
+    tree.pencolor('blue')
     n = getFloor(node)
     condition = str(node.condition)
     identity = str(node.name)
@@ -221,29 +227,45 @@ def left_forward(node):
     tree.fd(calFloor(n))
     tree.right(90)
     tree.fd(20)
-    tree.left(90)
-    tree.fd(20)
-    tree.right(90)
-    tree.fd(40)
-    tree.right(90)
-    tree.fd(40)
-    tree.right(90)
-    tree.fd(40)
-    tree.right(90)
-    tree.fd(20)
-    tree.right(90)
-    tree.penup()
-    tree.fd(20)
+    # 开始正方形
+    #tree.left(90)
+    #tree.fd(20)
+    #tree.right(90)
+    #tree.fd(40)
+    #tree.right(90)
+    #tree.fd(40)
+    #tree.right(90)
+    #tree.fd(40)
+    #tree.right(90)
+    #tree.fd(20)
+    #tree.right(90)
+    # 结束正方形
+    #
+    #tree.fd(20)
+    #
+    #tree.penup()
+
+
+    if node.type == 'terminal':
+        tree.pencolor('white')
+        tree.fd(20)
+        tree.pencolor('blue')
+        pass
+    else:
+        tree.fd(20)
+        tree.fd(20)
     tree.write(condition)
-    tree.fd(20)
-    tree.pendown()
+    #tree.pendown()
 
 
 def left_back(node):
     n = getFloor(node)
     tree.penup()
     tree.right(180)
-    tree.fd(60)
+    if node.type == 'terminal':
+        tree.fd(40)
+    else:
+        tree.fd(60)
     tree.left(90)
     tree.fd(calFloor(n))
     tree.right(90)
@@ -253,7 +275,7 @@ def left_back(node):
 
 
 def right_forward(node):
-    tree.pencolor('blue')
+    tree.pencolor('red')
     tree.pensize(1)
     n = getFloor(node)
     condition = str(node.condition)
@@ -264,29 +286,46 @@ def right_forward(node):
     tree.fd(calFloor(n))
     tree.left(90)
     tree.fd(20)
-    tree.right(90)
-    tree.fd(20)
-    tree.left(90)
-    tree.fd(40)
-    tree.left(90)
-    tree.fd(40)
-    tree.left(90)
-    tree.fd(40)
-    tree.left(90)
-    tree.fd(20)
-    tree.left(90)
-    tree.penup()
-    tree.fd(20)
+    #
+    #tree.right(90)
+    #tree.fd(20)
+    #tree.left(90)
+    #tree.fd(40)
+    #tree.left(90)
+    #tree.fd(40)
+    #tree.left(90)
+    #tree.fd(40)
+    #tree.left(90)
+    #tree.fd(20)
+    #tree.left(90)
+    #
+    #tree.fd(20)
+    #
+    #tree.penup()
+
+
+    if node.type == 'terminal':
+        tree.pencolor('white')
+        tree.fd(20)
+        tree.pencolor('red')
+        pass
+    else:
+        tree.fd(20)
+        tree.fd(20)
     tree.write(condition)
-    tree.fd(20)
-    tree.pendown()
+
+
+    #tree.pendown()
 
 
 def right_back(node):
     n = getFloor(node)
     tree.penup()
     tree.left(180)
-    tree.fd(60)
+    if node.type == 'terminal':
+        tree.fd(40)
+    else:
+        tree.fd(60)
     tree.right(90)
     tree.fd(calFloor(n))
     tree.left(90)
@@ -297,13 +336,15 @@ def right_back(node):
 
 # 开始！
 
-
+tree.hideturtle()
 tracer(0)
 k = tree_root
+k.parent = None
 
 drawTree(k)
 
 update()
+
 ts = getscreen()
 
 ts.getcanvas().postscript(file="duck.eps")
