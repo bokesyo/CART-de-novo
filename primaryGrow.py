@@ -2,8 +2,9 @@
 # Save tree object as a file
 from classRef.localCache import *
 
-# Calculate mean square error, and determine which pointer and criteria of splitting,
-# This function is written by Xu, a member of our team
+# A series of function used to calculate anything,
+# and determine which pointer and criteria of splitting,
+# this function is written by Xu, a member of our team
 from regCalcFunc import *
 
 # Tree class,
@@ -14,16 +15,10 @@ from classRef.treeClass import *
 import sys
 sys.setrecursionlimit(999999)
 
-# Open a empty python file
+# Open an empty python file
 filehandle = open("output/primaryExecute.py", "w")
 filehandle.write('')  # clear the file
 filehandle = open("output/primaryExecute.py", "a")
-
-# Import all data,
-# readCSV() is written by Ruan, a member of our team
-data_dict = readCSV()
-pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
-
 
 # Write the header
 filehandle.write('def classifier(data_list):\n')
@@ -38,6 +33,12 @@ filehandle.write('    density = data_list[7]\n')
 filehandle.write('    pH = data_list[8]\n')
 filehandle.write('    sulphates = data_list[9]\n')
 filehandle.write('    alcohol = data_list[10]\n')
+
+
+# Import all data,
+# readCSV() is written by Ruan, a member of our team
+data_dict = readCSV()
+pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
 
 indent = 0
@@ -105,8 +106,12 @@ def grow(back, id_list, node=None, mode=None):
     indent -= 1
 
 
+# Main program
 grow('ini', id_list)
+
+# Write database file
 tree_root = tree.root
 a = local_cache('dataStorge/primaryTreeObject')
 a['tree_root'] = tree_root
+
 filehandle.close()
