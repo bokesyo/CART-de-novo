@@ -131,9 +131,6 @@ data = local_cache('dataStorge/primaryTreeObject')
 tlee = data['tree']
 tree_root = tlee.root
 
-
-
-
 tracer(0)
 tree.pencolor('blue')
 tree.write(tree_root.condition + '?')

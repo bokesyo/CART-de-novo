@@ -6,7 +6,7 @@ from output.generalExecute import *
 from readData import *
 
 # Import all testing data
-data_dict = readCSV('inputData/test.csv')
+data_dict = readCSV('inputData/train.csv')
 
 n = 0
 sum_delta_square = 0

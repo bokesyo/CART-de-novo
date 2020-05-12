@@ -1,12 +1,8 @@
 
 # Import all data,
 # readCSV() is written by Ruan, a member of our team
+# 这是我们自己编写的数据读取程序
 from readData import *
-
-
-# Save tree object as a file
-# 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
-from classRef.localCache import *
 
 # A series of function used to calculate anything,
 # and determine which pointer and criteria of splitting,
@@ -19,6 +15,10 @@ from regCalcFunc import *
 # 这是我们自己编写的树类
 from classRef.treeClass import *
 
+# Save tree object as a file
+# 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
+from classRef.localCache import *
+
 # Set recursion times
 # 用到了递归，调整最大递归为无限大
 import sys
@@ -29,11 +29,9 @@ data_dict = readCSV('inputData/train.csv')
 
 pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
-
+tree = Tree()
 indent = 0
 node_count = 0
-tree = Tree()
-
 countsm = 0
 countbg = 0
 
@@ -58,6 +56,7 @@ def grow(back, id_list, node, mode=None):
         node.type = 'terminal'
         node.result = str(result)
         return
+
     # 如果不纯净，就继续分割
     left_division_list = []
     right_division_list = []
@@ -67,7 +66,7 @@ def grow(back, id_list, node, mode=None):
         else:
             right_division_list.append(item[0])
 
-    node.condition = str(pointer_name[back[0]]) + ' < ' + str(back[1])
+    node.condition = str(pointer_name[back[0]]) + '<' + str(back[1])
 
     node_count += 1
     node.left = Node(node_count, node, None, None, None, left_division_list)
