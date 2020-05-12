@@ -1,7 +1,6 @@
-def readCSV():
+def readCSV(filename):
     global data_dict
     # 自定义文件名
-    filename = 'inputData/train.csv'
     # 列的个数，手动修改
     length = 12
     # 读取每行，临时存储

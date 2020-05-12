@@ -1,4 +1,6 @@
 
+# Import all data,
+# readCSV() is written by Ruan, a member of our team
 from readData import *
 
 
@@ -23,9 +25,7 @@ import sys
 sys.setrecursionlimit(999999)
 
 
-# Import all data,
-# readCSV() is written by Ruan, a member of our team
-data_dict = readCSV()
+data_dict = readCSV('inputData/train.csv')
 
 pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
@@ -33,7 +33,7 @@ pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_su
 indent = 0
 node_count = 0
 tree = Tree()
-id_list = list(range(0, len(data_dict)))
+
 countsm = 0
 countbg = 0
 
@@ -87,7 +87,7 @@ def grow(back, id_list, node, mode=None):
 
 
 # Main program
-
+id_list = list(range(0, len(data_dict)))
 # Prepare a root node
 root_node = tree.add_root(node_count)
 # Get initial split point and corresponding pointer
