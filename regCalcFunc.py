@@ -1,40 +1,4 @@
 
-def readCSV():
-    global data_dict
-    # 自定义文件名
-    filename = 'inputData/train.csv'
-    # 列的个数，手动修改
-    length = 12
-    # 读取每行，临时存储
-    data_temp = []
-    for line in open(filename, 'r'):
-        split_list = line.split(',')
-        data_temp.append(split_list)
-    i = 1
-    n = len(data_temp)
-    # 正式存储
-    data_dict = {}
-    while i < n:
-        this_list = data_temp[i]
-        new_this_list = []
-        # 挑出目标变量，即最后一个变量
-        target = this_list[length - 1]
-        if "\n" in target:
-            buf3 = str(this_list[length - 1])
-            buf3.strip("\n")
-            target = eval(buf3)
-        else:
-            target = eval(this_list[length - 1])
-        # 从列表删除，剩下全是自变量
-        del this_list[length - 1]
-        # 剩下自变量自成一表
-        for item in this_list:
-            buf2 = eval(item)
-            new_this_list.append(buf2)
-        # 整理数据，写入
-        data_dict[i - 1] = [new_this_list, target]
-        i = i + 1
-    return data_dict
 #
 #
 #
@@ -146,7 +110,7 @@ def cutPointChoose(in_list):
 #
 #
 # 输入：指标代码，酒的编号列表
-def getPointerData(pointer_num, id_list):
+def getPointerData(pointer_num, id_list, data_dict):
     out_list = []
     for lid in id_list:
         list_by_id = data_dict[lid]
@@ -167,7 +131,7 @@ def getPointerData(pointer_num, id_list):
 #
 #
 # 选择本轮最优指标
-def pointerChoose(id_list, mode):
+def pointerChoose(data_dict, id_list, mode):
     # 用来装入各个指标的方差的列表
     result_by_pointer_list = []
     # 生成可用指标列表
@@ -175,7 +139,7 @@ def pointerChoose(id_list, mode):
     # 对每个可用指标进行计算
     for pointer in permit_pointer:
         # 固定一个指标，进行方差计算
-        data_list_by_pointer = getPointerData(pointer, id_list)
+        data_list_by_pointer = getPointerData(pointer, id_list, data_dict)
         # 选出该指标的方差最小值对应的划分点
         # 整理数据
         result_by_pointer = [pointer] + cutPointChoose(data_list_by_pointer)
@@ -197,7 +161,7 @@ def pointerChoose(id_list, mode):
 #
 #
 # 输入指标代码，红酒的编号列表
-def getIDData(pointer_num, id_list):
+def getIDData(pointer_num, id_list, data_dict):
     out_list = []
     for lid in id_list:
         list_by_id = data_dict[lid]
@@ -233,7 +197,7 @@ def jufgeIfPure(in_list):
 #
 #
 # 输入：指标代码，酒的编号列表
-def getTarget(id_list):
+def getTarget(id_list, data_dict):
     out_list = []
     for lid in id_list:
         list_by_id = data_dict[lid]
