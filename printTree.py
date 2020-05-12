@@ -5,6 +5,8 @@ from classRef.localCache import *
 # Use turtle to draw a tree
 from turtle import *
 
+from config import *
+
 tree = Turtle()
 screen = Screen()
 
@@ -127,7 +129,7 @@ def drawTree(node):
     return
 
 
-data = local_cache('dataStorge/primaryTreeObject')
+data = local_cache(primary_tree_object)
 tlee = data['tree']
 tree_root = tlee.root
 
@@ -143,6 +145,6 @@ drawTree(k)
 update()
 
 scrren_shot = getscreen()
-scrren_shot.getcanvas().postscript(file="output/treePrint.eps")
+scrren_shot.getcanvas().postscript(file=tree_graph_output)
 done()
 

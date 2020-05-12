@@ -1,7 +1,9 @@
-
+from config import *
 
 # 给定一个列表，「剔除」相同元素，并「排序」
 # 输入格式：一个列表[1, 8, 2, 2]
+
+
 def sortAndUnique(in_list):
     in_list = list(set(in_list))
     in_list.sort()
@@ -127,7 +129,7 @@ def pointerChoose(data_dict, id_list, mode):
     # 用来装入各个指标的方差的列表
     result_by_pointer_list = []
     # 生成可用指标列表
-    permit_pointer = list(range(0, 11))
+    permit_pointer = list(range(0, number_of_col - 1))
     # 对每个可用指标进行计算
     for pointer in permit_pointer:
         # 固定一个指标，进行方差计算
@@ -152,7 +154,7 @@ def pointerChoose(data_dict, id_list, mode):
 #
 #
 #
-# 输入指标代码，红酒的编号列表
+# 输入指标代码，编号列表
 def getIDData(pointer_num, id_list, data_dict):
     out_list = []
     for lid in id_list:

@@ -1,12 +1,12 @@
 # Assessment Module
-
+from config import *
 # Import our implementation module
 from output.generalExecute import *
 # CSV reader
 from readData import *
 
 # Import all testing data
-data_dict = readCSV('inputData/train.csv')
+data_dict = readCSV(assessment_dataset)
 
 n = 0
 sum_delta_square = 0

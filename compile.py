@@ -1,8 +1,9 @@
 
 # Read the tree object we generated before
 from classRef.localCache import *
+from config import *
 
-data = local_cache('dataStorge/primaryTreeObject')
+data = local_cache(primary_tree_object)
 tree_root = data['tree'].root
 
 indent = 0
@@ -11,9 +12,9 @@ countsm = 0
 countbg = 0
 
 # Open an empty python file
-filehandle = open("output/generalExecute.py", "w")
+filehandle = open(execute_classifier, "w")
 filehandle.write('')  # clear the file
-filehandle = open("output/generalExecute.py", "a")
+filehandle = open(execute_classifier, "a")
 
 # Write the header
 filehandle.write('def classifier(data_list):\n')

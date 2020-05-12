@@ -11,7 +11,7 @@ from readData import *
 from regCalcFunc import *
 
 # Tree class,
-# This function is written by Peng, a memeber of our team
+# This function is written by Peng, a member of our team
 # 这是我们自己编写的树类
 from classRef.treeClass import *
 
@@ -19,26 +19,28 @@ from classRef.treeClass import *
 # 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
 from classRef.localCache import *
 
+from config import *
+
+# 引进计时函数，与决策树生长没有任何关系
+import time
+
 # Set recursion times
 # 用到了递归，调整最大递归为无限大
 import sys
 sys.setrecursionlimit(999999)
 
 
-data_dict = readCSV('inputData/train.csv')
+# Import all data
+data_dict = readCSV(train_dataset)
 
-pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
-
+# Initialize tree object
 tree = Tree()
+
 indent = 0
 node_count = 0
-countsm = 0
-countbg = 0
 
 
 def grow(back, id_list, node, mode=None):
-    global countsm
-    global countbg
     global indent
     global node_count
 
@@ -46,9 +48,9 @@ def grow(back, id_list, node, mode=None):
     cut_point = back[1]
     data_list_by_pointer = getIDData(pointer, id_list, data_dict)
 
+    # If data is pure, it becomes a leaf
     # 如果样本指标纯净,就成为叶子
     if jufgeIfPure(data_list_by_pointer):
-        # 取平均值
         # 这是一个叶子节点
         result = average(getTarget(id_list, data_dict))
         node.condition = ''
@@ -57,6 +59,7 @@ def grow(back, id_list, node, mode=None):
         node.result = str(result)
         return
 
+    # If data is not pure, continue splitting
     # 如果不纯净，就继续分割
     left_division_list = []
     right_division_list = []
@@ -85,6 +88,9 @@ def grow(back, id_list, node, mode=None):
     indent -= 1
 
 
+# 开始计时
+start = time.perf_counter()
+
 # Main program
 id_list = list(range(0, len(data_dict)))
 # Prepare a root node
@@ -94,7 +100,11 @@ back_initial = pointerChoose(data_dict, id_list, 's')
 # Get started!
 grow(back_initial, id_list, root_node)
 
+# 结束计时
+end = time.perf_counter()
+print('Running time is:', end - start, 's')
+
 # Write database file
-a = local_cache('dataStorge/primaryTreeObject')
+a = local_cache(primary_tree_object)
 a['tree'] = tree
 

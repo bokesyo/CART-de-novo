@@ -1,8 +1,11 @@
+from config import *
+
+
 def readCSV(filename):
-    global data_dict
+
     # 自定义文件名
     # 列的个数，手动修改
-    length = 12
+    length = number_of_col
     # 读取每行，临时存储
     data_temp = []
     for line in open(filename, 'r'):
@@ -15,6 +18,9 @@ def readCSV(filename):
     while i < n:
         this_list = data_temp[i]
         new_this_list = []
+
+        #
+        #
         # 挑出目标变量，即最后一个变量
         target = this_list[length - 1]
         if "\n" in target:
@@ -25,6 +31,9 @@ def readCSV(filename):
             target = eval(this_list[length - 1])
         # 从列表删除，剩下全是自变量
         del this_list[length - 1]
+        #
+        #
+
         # 剩下自变量自成一表
         for item in this_list:
             buf2 = eval(item)
