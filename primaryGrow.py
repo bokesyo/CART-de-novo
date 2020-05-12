@@ -84,26 +84,30 @@ def grow(back, id_list, node=None, mode=None):
         else:
             right_division_list.append(item[0])
 
-    node_count += 1
-    node.left = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]),
-                     left_division_list)
-    indent += 1
-    filehandle.write((' ' * 4 * indent + 'if ' + str(pointer_name[back[0]]) + ' < ' + str(back[1]) + ':') + '\n')
+    if (left_division_list == []) and right_division_list:
+        node = Node(node_count, node.parent, None, None, str(pointer_name[back[0]]) + ' >= ' + str(back[1]), right_division_list)
+        back1 = pointerChoose(right_division_list, 'l')
+        grow(back1, right_division_list, node, 'l')
 
-    back1 = pointerChoose(left_division_list, 'l')
+    elif (left_division_list == []) and right_division_list:
+        node = Node(node_count, node.parent, None, None, str(pointer_name[back[0]]) + ' >= ' + str(back[1]), left_division_list)
+        back2 = pointerChoose(left_division_list, 'l')
+        grow(back2, left_division_list, node, 'l')
 
-    grow(back1, left_division_list, node.left, 'l')
+    else:
+        node_count += 1
+        node.left = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' < ' + str(back[1]), left_division_list)
+        indent += 1
+        filehandle.write((' ' * 4 * indent + 'if ' + str(pointer_name[back[0]]) + ' < ' + str(back[1]) + ':') + '\n')
+        back1 = pointerChoose(left_division_list, 'l')
+        grow(back1, left_division_list, node.left, 'l')
 
-    node_count += 1
-    node.right = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' >= ' + str(back[1]),
-                      right_division_list)
-
-    filehandle.write((' ' * 4 * indent + 'else: ') + '\n')
-
-    back2 = pointerChoose(right_division_list, 'r')
-
-    grow(back2, right_division_list, node.right, 'r')
-    indent -= 1
+        node_count += 1
+        node.right = Node(node_count, node, None, None, str(pointer_name[back[0]]) + ' >= ' + str(back[1]), right_division_list)
+        filehandle.write((' ' * 4 * indent + 'else: ') + '\n')
+        back2 = pointerChoose(right_division_list, 'r')
+        grow(back2, right_division_list, node.right, 'r')
+        indent -= 1
 
 
 # Main program
