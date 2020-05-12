@@ -215,6 +215,7 @@ def getIDData(pointer_num, id_list):
 
 
 def jufgeIfPure(in_list):
+    # print(in_list)
     my_list = []
     for item in in_list:
         my_list.append(item[1])

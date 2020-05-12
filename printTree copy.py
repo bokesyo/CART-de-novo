@@ -9,14 +9,14 @@ tree = Turtle()
 screen = Screen()
 
 # Set scale
-screensize(1000, 1000)
-ext = 1000
+screensize(10000, 10000)
+ext = 10000
 
 # Turtle goto the top of the screen
 tracer(0)
 tree.right(90)
 tree.penup()
-tree.goto(0, 480)
+tree.goto(0, 5000)
 tree.pendown()
 update()
 
@@ -37,7 +37,7 @@ def left_forward(node):
     tree.pensize(1)
     tree.pencolor('blue')
     n = getFloor(node)
-    condition = str(node.condition) + '?'
+    condition = str(node.condition)
     identity = str(node.name)
     ID = str(node.ID)
     tree.fd(20)
@@ -50,12 +50,11 @@ def left_forward(node):
         tree.pencolor('white')
         tree.fd(20)
         tree.pencolor('blue')
-        tree.write(str(node.result))
         pass
     else:
         tree.fd(20)
         tree.fd(20)
-        tree.write(condition)
+    tree.write(condition)
 
 
 def left_back(node):
@@ -78,7 +77,7 @@ def right_forward(node):
     tree.pencolor('red')
     tree.pensize(1)
     n = getFloor(node)
-    condition = str(node.condition) + '?'
+    condition = str(node.condition)
     identity = str(node.name)
     ID = str(node.ID)
     tree.fd(20)
@@ -91,12 +90,11 @@ def right_forward(node):
         tree.pencolor('white')
         tree.fd(20)
         tree.pencolor('red')
-        tree.write(str(node.result))
         pass
     else:
         tree.fd(20)
         tree.fd(20)
-        tree.write(condition)
+    tree.write(condition)
 
 
 def right_back(node):
@@ -128,17 +126,9 @@ def drawTree(node):
 
 
 data = local_cache('dataStorge/primaryTreeObject')
-tlee = data['tree']
-tree_root = tlee.root
+tree_root = data['tree_root']
 
-
-
-
-tracer(0)
-tree.pencolor('blue')
-tree.write(tree_root.condition + '?')
 tree.hideturtle()
-update()
 tracer(0)
 k = tree_root
 k.parent = None

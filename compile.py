@@ -3,7 +3,7 @@
 from classRef.localCache import *
 
 data = local_cache('dataStorge/primaryTreeObject')
-tree_root = data['tree_root']
+tree_root = data['tree'].root
 
 indent = 0
 node_count = 0
@@ -36,12 +36,10 @@ def grow(node):
     global indent
     global node_count
 
-    if (node.type == 'terminal') or (not node):
-        i = node.ID
-        result = node.condition
+    if node.type == 'terminal':
+        result = node.result
         node_count += 1
         filehandle.write((' ' * 4 * (indent + 1) + 'return ' + str(result)) + '\n')
-        # filehandle.write((' ' * 4 * (indent + 1) + 'ids' + str(i)) + '\n')
         return
 
     if node.left:
@@ -53,7 +51,6 @@ def grow(node):
         grow(node.left)
     else:
         pass
-        # filehandle.write((' ' * 4 * indent + 'fuck:left ') + '\n')
 
     if node.right:
         node_count += 1
@@ -63,7 +60,6 @@ def grow(node):
         indent -= 1
     else:
         pass
-        # filehandle.write((' ' * 4 * indent + 'fuck:right ') + '\n')
 
 
 grow(tree_root)

@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self, name = None, parent = None, left = None, right = None, condition = None, ID = [], type=None):
+    def __init__(self, name = None, parent = None, left = None, right = None, condition = None, ID = [], type='node', result=''):
         self.name = name
         self.parent = parent
         self.left = left
@@ -7,6 +7,7 @@ class Node:
         self.condition = condition
         self.ID = ID
         self.type = type
+        self.result = result
 
     def record_id(self,num):
         self.ID.append(num)
