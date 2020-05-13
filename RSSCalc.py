@@ -6,7 +6,7 @@ from readData import *
 
 def calcRSS():
     # Import all testing data
-    data_dict = readCSV('inputData/test.csv')
+    data_dict = readCSV('inputData/partial_train.csv')
 
     n = 0
     sum_delta_square = 0

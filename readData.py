@@ -2,7 +2,6 @@ from config import *
 
 
 def readCSV(filename):
-
     # 自定义文件名
     # 列的个数，手动修改
     length = number_of_col
@@ -22,6 +21,7 @@ def readCSV(filename):
         #
         #
         # 挑出目标变量，即最后一个变量
+
         target = this_list[length - 1]
         if "\n" in target:
             buf3 = str(this_list[length - 1])
@@ -41,4 +41,5 @@ def readCSV(filename):
         # 整理数据，写入
         data_dict[i - 1] = [new_this_list, target]
         i = i + 1
+
     return data_dict
