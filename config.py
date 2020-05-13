@@ -4,7 +4,7 @@ primary_tree_object = 'dataStorge/primaryTreeObject'
 
 execute_classifier = "output/generalExecute.py"
 
-train_dataset = 'inputData/train.csv'
+train_dataset = 'inputData/partial_train.csv'
 
 pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
