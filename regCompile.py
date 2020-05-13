@@ -3,7 +3,7 @@
 from classRef.localCache import *
 from config import *
 
-data = local_cache(primary_tree_object)
+data = local_cache(reg_tree_object)
 tree_root = data['tree'].root
 
 indent = 0
@@ -12,9 +12,9 @@ countsm = 0
 countbg = 0
 
 # Open an empty python file
-filehandle = open(execute_classifier, "w")
+filehandle = open(reg_execute_classifier, "w")
 filehandle.write('')  # clear the file
-filehandle = open(execute_classifier, "a")
+filehandle = open(reg_execute_classifier, "a")
 
 # Write the header
 filehandle.write('def classifier(data_list):\n')

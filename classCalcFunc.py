@@ -1,18 +1,9 @@
 from config import *
 
-# 给定一个列表，「剔除」相同元素，并「排序」
-# 输入格式：一个列表[1, 8, 2, 2]
-
-
 def sortAndUnique(in_list):
     in_list = list(set(in_list))
     in_list.sort()
     return in_list
-# 输出格式：一个列表[1，2，4，6，8]
-#
-#
-#
-
 
 #
 #
@@ -36,23 +27,6 @@ def average(in_list):
 #
 
 
-#
-#
-#
-# 计算方差
-# 输入格式：一个列表[1, 3, 2, 3, 2]
-def squareError(target_list):
-    # print(target_list)
-    avg = average(target_list)
-    delta_square_sum = 0
-    for data in target_list:
-        delta_square = (data - avg) ** 2
-        delta_square_sum = delta_square_sum + delta_square
-    return delta_square_sum
-# 输出格式： 数字
-#
-#
-#
 
 
 #
@@ -61,7 +35,6 @@ def squareError(target_list):
 # 输入格式：[某个指标的所有值]
 # 给定一个指标的所有数据，找出该指标最好的划分点
 def cutPointChoose(in_list):
-    # print(in_list)
     result_list = []
     # 准备切分点列表
     arith_prep = []
@@ -69,23 +42,44 @@ def cutPointChoose(in_list):
         arith_prep.append(i[0])
     arith_list = sortAndUnique(arith_prep)
     # 对于每个切分点，做同样操作
-    for cut_point in arith_list:
-        target_list_small = []
-        target_list_big = []
-        # 按某指标的大小进行分类：大或小
+    #
+    #
+
+    for i in arith_list:  # 候选切分点列表
+
+        area1 = 0
+        area2 = 0
+        area3 = 0
+        area4 = 0
+
         for data_pair in in_list:
-            if data_pair[0] < cut_point:
-                target_list_small.append(data_pair[1])
+            c = data_pair[0]
+            b = data_pair[1]
+            if c >= i and b >= 6:
+                area1 += 1
+            elif c >= i and b < 6:
+                area2 += 1
+            elif c < i and b >= 6:
+                area3 += 1
             else:
-                target_list_big.append(data_pair[1])
-        # 分别计算 mean square error
-        small_delta_square = squareError(target_list_small)
-        big_delta_square = squareError(target_list_big)
-        # 加起来
-        delta_square = small_delta_square + big_delta_square
-        # 加入列表
-        cut_point_delta_square_pair = [cut_point, delta_square]
-        result_list.append(cut_point_delta_square_pair)
+                area4 += 1
+
+        sum1 = area1 + area2
+        sum2 = area3 + area4
+
+        if area3 + area4 == 0:
+            sum2 = 1
+        if area1 + area2 == 0:
+            sum1 = 1
+
+        gini1 = 1 - (area1 / (sum1)) ** 2 - (area2 / (sum1)) ** 2
+        gini2 = 1 - (area3 / (sum2)) ** 2 - (area4 / (sum2)) ** 2
+
+        gini = ((sum1) / (sum1 + sum2)) * gini1 + ((sum2) / (sum1 + sum2)) * gini2
+        result_list.append([i, gini])
+        print(gini)
+        print('______')
+
     # 找最小值
     result_min = None
     for result in result_list:
@@ -99,6 +93,7 @@ def cutPointChoose(in_list):
 #
 #
 #
+
 
 
 #
@@ -204,5 +199,4 @@ def getTarget(id_list, data_dict):
 #
 #
 #
-
 

@@ -13,7 +13,6 @@ from regCalcFunc import *
 from classRef.treeClass import *
 from config import *
 # 引进计时函数，与决策树生长没有任何关系
-import time
 # Set recursion times
 # 调整最大递归为无限大
 import sys
@@ -75,7 +74,6 @@ def grow(back, id_list, node, mode=None):
 
 
 # 开始计时
-start = time.perf_counter()
 
 # Main program
 id_list = list(range(0, len(data_dict)))
@@ -89,8 +87,6 @@ back_initial = pointerChoose(data_dict, id_list, 's')
 grow(back_initial, id_list, root_node)
 
 # 结束计时
-end = time.perf_counter()
-print('Running time is:', end - start, 's')
 
 # 以上是树的构建
 
@@ -101,5 +97,6 @@ print('Running time is:', end - start, 's')
 # 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
 from classRef.localCache import *
 # Write database file
-a = local_cache(primary_tree_object)
+a = local_cache(reg_tree_object)
 a['tree'] = tree
+

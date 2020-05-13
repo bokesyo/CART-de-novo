@@ -1,18 +1,21 @@
 assessment_dataset = 'inputData/test.csv'
 
-primary_tree_object = 'dataStorge/primaryTreeObject'
-
-execute_classifier = "output/generalExecute.py"
-
 train_dataset = 'inputData/partial_train.csv'
 
 pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
 
-tree_graph_output = "output/treePrint.eps"
-
 number_of_col = 12
 
+reg_graph_output = "tmp/regPrint.eps"
+class_graph_output = "tmp/classPrint.eps"
 
+
+class_tree_object = 'tmp/classTreeObject'
+reg_tree_object = 'tmp/regTreeObject'
+
+
+class_execute_classifier = "tmp/classExecute.py"
+reg_execute_classifier = "tmp/regExecute.py"
 
 
 """

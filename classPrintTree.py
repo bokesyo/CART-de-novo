@@ -1,10 +1,8 @@
 
 # Read the tree object we generated before
 from classRef.localCache import *
-
 # Use turtle to draw a tree
 from turtle import *
-
 from config import *
 
 tree = Turtle()
@@ -52,7 +50,10 @@ def left_forward(node):
         tree.pencolor('white')
         tree.fd(20)
         tree.pencolor('blue')
-        tree.write(str(node.result))
+        if node.result == 1:
+            tree.write('G')
+        else:
+            tree.write('B')
         pass
     else:
         tree.fd(20)
@@ -93,7 +94,10 @@ def right_forward(node):
         tree.pencolor('white')
         tree.fd(20)
         tree.pencolor('red')
-        tree.write(str(node.result))
+        if node.result == 1:
+            tree.write('G')
+        else:
+            tree.write('B')
         pass
     else:
         tree.fd(20)
@@ -129,7 +133,8 @@ def drawTree(node):
     return
 
 
-data = local_cache(primary_tree_object)
+data = local_cache(class_tree_object)
+
 tlee = data['tree']
 tree_root = tlee.root
 
@@ -145,6 +150,6 @@ drawTree(k)
 update()
 
 scrren_shot = getscreen()
-scrren_shot.getcanvas().postscript(file=tree_graph_output)
+scrren_shot.getcanvas().postscript(file=class_graph_output)
 done()
 
