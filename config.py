@@ -11,7 +11,7 @@ class_graph_output = "tmp/classPrint.eps"
 
 
 class_tree_object = 'tmp/classPrimaryTreeObject'
-reg_tree_object = 'tmp/regPrimaryTreeObject'
+reg_tree_object = 'tmp/reg/regTreeObject'
 
 
 class_execute_classifier = "tmp/classExecute.py"

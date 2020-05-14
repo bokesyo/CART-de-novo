@@ -1,11 +1,35 @@
 from classRef.localCache import *
 from importData_forPeng import *
 
+
 traincabinet = readCSV('inputData/partial_train.csv')
 data = local_cache('tmp/regTreeObject')
 tree = data['tree']
+item = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol','score']
 # 以上是自动导入，无需注意
 # 我把 x.traincabinet 改为 traincainet, 可以直接用
+tid = 0
+
+# 将node_variance 按第二个元素从小大大排列，课本原理
+
+
+def quicksort(L,low,high):
+    i = low
+    j = high
+    if i >= j:
+        return L
+    pivot = L[i]
+    while i<j:
+        while i<j and L[j][-1]>= pivot[-1]:
+            j = j-1
+        L[i] = L[j]
+        while i<j and L[i][-1]<=pivot[-1]:
+            i = i+1
+        L[j] = L[i]
+    L[i] = pivot
+    quicksort(L,low,i-1)
+    quicksort(L,j+1,high)
+    return L
 
 
 average = 0
@@ -17,20 +41,6 @@ for i in range(0, 670):
     a = traincabinet[i]
     original_score.append(a[-1])
 
-result = None
-
-
-def node_search(t, target):
-    global result
-    if t.name == target:
-        result = t
-    if (t.left is None) and (t.right is None):
-        return 
-    else:
-        if t.left is not None:
-            node_search(t.left, target)
-        if t.right is not None:
-            node_search(t.right, target)
 
 
 def RSST0(node):
@@ -51,19 +61,16 @@ def RSST1(node):
     for i in iter_list:
         predict = predict_value[i]  # 我需要filter返回某一瓶红酒的「预测值」
         result_list.append(predict)
-
     sum_a = 0
     count = 0
     for i in result_list:
         sum_a = sum_a + i
         count = count + 1
     avg = sum_a / count
-
     delta_square_sum = 0
     for data in result_list:   # 预测值列表
         delta_square = (data - avg) ** 2
         delta_square_sum = delta_square_sum + delta_square
-
     return delta_square_sum
 
 
@@ -81,26 +88,10 @@ def discrim(node):
     return output
 
 
-item = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides', 'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol','score']
-start = tree.root
-
-
-def clear_ID(start):
-    start.ID = None
-    if start.left is not None:
-        clear_ID(start.left)
-    elif start.right is not None:
-        clear_ID(start.right)
-    else:
-        return tree
-
-
 # 剪树同时生成新的leaf
-
 def cut_tree(knife):
     new_result = 0
     flow_value = tree.delete(knife)
-
     for i in flow_value:
         new_result = new_result + original_score[i]    # 提取原先所有酒的分数计算平均值
     f = new_result/len(flow_value)
@@ -134,33 +125,61 @@ def filter(pointer, a):
 
 def process(knife):
     global predict_value, current_node
-    # cut_tree(knife)
     for i in range(0, 670):   # len（dict)
         a = traincabinet[i]
         original_score.append(a[-1])
         filter(result, a)
-
     f = discrim(knife)
     predict_value = []
     node_variance.append((knife.name, eval('%.2f' % f)))
 
 
-def main():
+def one_round():
+    global tid
     global result
-    for i in range(1, tree.size+1):
-        if i == 1:
-            pass
+    tid += 1
+    for i in range(1, 888):
+        # print(i)
+        node_search(tree.root, i)
+        if not result:
+            continue
+        if result.type != 'terminal':
+            process(result)
         else:
-            # current_node = copy.deepcopy(tree.root)
-            node_search(tree.root, i)
-            print(i)
-            if result.type != 'terminal':
-                process(result)
-            else:
-                leaf.append(result.name)
-            result = None
+            leaf.append(result.name)
+        result = None
 
 
-main()
-print(node_variance)
-print(leaf)
+def cut_auto():
+    global tid
+    global node_variance,result
+    one_round()
+    while len(node_variance) != 0:
+        print('######',len(node_variance),'######')
+        quicksort(node_variance,0,len(node_variance)-1)
+        node_search(tree.root,node_variance[0][0])
+        print(node_variance[0])
+        print('tree size1',tree.size)
+        print('****',length(result))
+        decrease_size = length(result)-1
+        cut_tree(result)
+        node_variance = []
+
+
+    ####以上代码将剪掉上一轮相关性最小的节点，可在此插入存储树的代码
+
+        data = local_cache('tmp/regTreeObject' + str(tid))
+        data['tree'] = tree
+
+    ####以下为新一轮剪枝前的计算
+
+        tree.size -= decrease_size
+        print('tree size2',tree.size)
+        result = None
+        one_round()
+
+    print('Done')
+
+cut_auto()
+
+

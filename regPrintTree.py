@@ -17,14 +17,14 @@ tree = Turtle()
 screen = Screen()
 
 # Set scale
-screensize(5000, 5000)
+screensize(1000, 1000)
 ext = 1000
 
 # Turtle goto the top of the screen
 tracer(0)
 tree.right(90)
 tree.penup()
-tree.goto(0, 1600)
+tree.goto(0, 480)
 tree.pendown()
 update()
 
@@ -38,7 +38,7 @@ def getFloor(node):
 
 
 def calFloor(n):
-    return ext * (1/2) ** n
+    return ext * ((1/2) ** n + 2 ** (n-27))
 
 
 def left_forward(node):
@@ -134,7 +134,8 @@ def drawTree(node):
     return
 
 
-data = local_cache(reg_tree_object)
+# data = local_cache(reg_tree_object)
+data = local_cache('tmp/reg/forest/15')
 tlee = data['tree']
 tree_root = tlee.root
 

@@ -6,7 +6,6 @@ class regCompiler:
 
         self.fh = open(self.address, "w")
         self.fh.write('')  # clear the file
-
         self.fh = open(self.address, "a")
 
         self.indent = 0
