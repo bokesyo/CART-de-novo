@@ -1,68 +1,56 @@
+class regCompiler:
+    def __init__(self, tree, tree_id):
+        self.tree = tree
+        self.address = 'tmp/reg/Execute_' + str(tree_id) + '.py'
+        self.fh = open(self.address, "w")
+        self.fh.write('')  # clear the file
 
-# Read the tree object we generated before
-# 从缓存中读取生成的模型
-from classRef.localCache import *
-# 我们的配置文件
-from config import *
+        self.fh = open(self.address, "a")
 
-data = local_cache(reg_tree_object)
-tree_root = data['tree'].root
+        self.indent = 0
+        self.node_count = 0
 
-indent = 0
-node_count = 0
-countsm = 0
-countbg = 0
+        self.write_header()
+        self.write_body(tree.root)
 
-# Open an empty python file
-filehandle = open(reg_execute_classifier, "w")
-filehandle.write('')  # clear the file
-filehandle = open(reg_execute_classifier, "a")
+    def write_header(self):
+        # Open an empty python file
+        # Write the header
+        self.fh.write('def classifier(data_list):\n')
+        self.fh.write('    fixed_acidity = data_list[0]\n')
+        self.fh.write('    volatile_acidity = data_list[1]\n')
+        self.fh.write('    citric_acid = data_list[2]\n')
+        self.fh.write('    residual_sugar = data_list[3]\n')
+        self.fh.write('    chlorides = data_list[4]\n')
+        self.fh.write('    free_sulfur_dioxide = data_list[5]\n')
+        self.fh.write('    total_sulfur_dioxide = data_list[6]\n')
+        self.fh.write('    density = data_list[7]\n')
+        self.fh.write('    pH = data_list[8]\n')
+        self.fh.write('    sulphates = data_list[9]\n')
+        self.fh.write('    alcohol = data_list[10]\n')
 
-# Write the header
-filehandle.write('def classifier(data_list):\n')
-filehandle.write('    fixed_acidity = data_list[0]\n')
-filehandle.write('    volatile_acidity = data_list[1]\n')
-filehandle.write('    citric_acid = data_list[2]\n')
-filehandle.write('    residual_sugar = data_list[3]\n')
-filehandle.write('    chlorides = data_list[4]\n')
-filehandle.write('    free_sulfur_dioxide = data_list[5]\n')
-filehandle.write('    total_sulfur_dioxide = data_list[6]\n')
-filehandle.write('    density = data_list[7]\n')
-filehandle.write('    pH = data_list[8]\n')
-filehandle.write('    sulphates = data_list[9]\n')
-filehandle.write('    alcohol = data_list[10]\n')
+    def write_body(self, node):
+        if node.type == 'terminal':
+            result = node.result
+            self.node_count += 1
+            self.fh.write((' ' * 4 * (self.indent + 1) + 'return ' + str(result)) + '\n')
+            return
 
+        if node.left:
+            self.node_count += 1
+            result = node.condition
+            self.indent += 1
+            i = node.ID
+            self.fh.write((' ' * 4 * self.indent + 'if ' + str(result) + ':') + '\n')
+            self.write_body(node.left)
+        else:
+            pass
 
-def grow(node):
-    global countsm
-    global countbg
-    global indent
-    global node_count
-
-    if node.type == 'terminal':
-        result = node.result
-        node_count += 1
-        filehandle.write((' ' * 4 * (indent + 1) + 'return ' + str(result)) + '\n')
-        return
-
-    if node.left:
-        node_count += 1
-        result = node.condition
-        indent += 1
-        i = node.ID
-        filehandle.write((' ' * 4 * indent + 'if ' + str(result) + ':') + '\n')
-        grow(node.left)
-    else:
-        pass
-
-    if node.right:
-        node_count += 1
-        i = node.ID
-        filehandle.write((' ' * 4 * indent + 'else: ') + '\n')
-        grow(node.right)
-        indent -= 1
-    else:
-        pass
-
-
-grow(tree_root)
+        if node.right:
+            self.node_count += 1
+            i = node.ID
+            self.fh.write((' ' * 4 * self.indent + 'else: ') + '\n')
+            self.write_body(node.right)
+            self.indent -= 1
+        else:
+            pass

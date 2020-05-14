@@ -105,8 +105,6 @@ grow(back_initial, id_list, root_node)
 
 # 以下是保存模型
 
-# Write database file
 # 「存储」我们生成的「模型」
 a = local_cache(reg_tree_object)
 a['tree'] = tree
-
