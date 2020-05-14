@@ -1,7 +1,12 @@
-class regCompiler:
-    def __init__(self, tree, tree_id):
+
+
+class classCompiler:
+    def __init__(self, tree, tree_id=0, address='default'):
         self.tree = tree
-        self.address = 'tmp/class/Execute_' + str(tree_id) + '.py'
+        if address == 'default':
+            self.address = 'tmp/class/Execute_' + str(tree_id) + '.py'
+        else:
+            self.address = address
         self.fh = open(self.address, "w")
         self.fh.write('')  # clear the file
 

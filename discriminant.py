@@ -1,7 +1,9 @@
 
 from config import *
 from readData import *
+
 from classRef.localCache import *
+
 from tmp.regExecute import *
 data = local_cache(reg_tree_object)
 tree = data['tree']

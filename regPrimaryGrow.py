@@ -20,6 +20,9 @@ from classRef.treeClass import *
 # 这是我们的配置文件
 from config import *
 
+# 这是我们自己写的编译器
+from regCompile import *
+
 # 引进计时函数，与决策树生长没有任何关系
 # Set recursion times
 
@@ -108,3 +111,9 @@ grow(back_initial, id_list, root_node)
 # 「存储」我们生成的「模型」
 a = local_cache(reg_tree_object)
 a['tree'] = tree
+
+a = local_cache('tmp/reg/treeObj_0')
+a['tree'] = tree
+
+regCompiler(tree, 0, reg_execute_classifier)
+

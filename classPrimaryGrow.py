@@ -13,6 +13,8 @@ from classCalcFunc import *
 from classRef.treeClass import *
 # 这是我们的配置文件
 from config import *
+# 这是我们自己写的编译器
+from classCompile import *
 # Save tree object as a file
 # 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
 from classRef.localCache import *
@@ -99,4 +101,6 @@ grow(back_initial, id_list, root_node)
 # Write database file
 a = local_cache(class_tree_object)
 a['tree'] = tree
+
+classCompiler(tree, 0, class_execute_classifier)
 
