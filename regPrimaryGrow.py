@@ -5,15 +5,21 @@ from readData import *
 # A series of function used to calculate anything,
 # and determine which pointer and criteria of splitting,
 # this function is written by Xu, a member of our team
-# 这是我们自己编写的计算函数
+# 这是我们自己编写的回归计算函数
 from regCalcFunc import *
 # Tree class,
 # This function is written by Peng, a member of our team
 # 这是我们自己编写的树类
 from classRef.treeClass import *
+# 这是我们的配置文件
 from config import *
 # 引进计时函数，与决策树生长没有任何关系
 # Set recursion times
+
+# Save tree object as a file
+# 请注意，这个库只是用来存储我们生成的模型，与决策树的生长没有任何关系。
+from classRef.localCache import *
+
 # 调整最大递归为无限大
 import sys
 sys.setrecursionlimit(999999)
@@ -92,10 +98,6 @@ grow(back_initial, id_list, root_node)
 
 # 以下是保存模型
 
-
-# Save tree object as a file
-# 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
-from classRef.localCache import *
 # Write database file
 a = local_cache(reg_tree_object)
 a['tree'] = tree

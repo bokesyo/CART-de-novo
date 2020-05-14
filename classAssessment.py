@@ -1,8 +1,10 @@
 # Assessment Module
 from config import *
 # Import our implementation module
+# 引进我们的模型
 from tmp.classExecute import *
 # CSV reader
+# 我们的数据读取程序
 from readData import *
 
 # Import all testing data

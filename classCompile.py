@@ -1,6 +1,7 @@
 
 # Read the tree object we generated before
 from classRef.localCache import *
+# 我们的配置文件
 from config import *
 
 data = local_cache(class_tree_object)

@@ -1,3 +1,4 @@
+# 我们的配置文件
 from config import *
 
 def sortAndUnique(in_list):

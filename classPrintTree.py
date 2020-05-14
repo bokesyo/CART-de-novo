@@ -1,4 +1,6 @@
 
+
+# 打印树的图像，不属于任务要求我们的范畴，所以我们用什么包都行。
 # Read the tree object we generated before
 from classRef.localCache import *
 # Use turtle to draw a tree

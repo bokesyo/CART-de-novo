@@ -11,8 +11,11 @@ from classCalcFunc import *
 # This function is written by Peng, a member of our team
 # 这是我们自己编写的树类
 from classRef.treeClass import *
+# 这是我们的配置文件
 from config import *
-# 引进计时函数，与决策树生长没有任何关系
+# Save tree object as a file
+# 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
+from classRef.localCache import *
 # Set recursion times
 # 调整最大递归为无限大
 import sys
@@ -20,7 +23,7 @@ sys.setrecursionlimit(999999)
 
 
 # Import all data
-data_dict = readCSV('inputData/train.csv')
+data_dict = readCSV(train_dataset)
 
 # Initialize tree object
 tree = Tree()
@@ -93,10 +96,6 @@ grow(back_initial, id_list, root_node)
 
 # 以下是保存模型
 
-
-# Save tree object as a file
-# 请注意，这个库只是用来存储变量为文件，与决策树的生长没有任何关系。
-from classRef.localCache import *
 # Write database file
 a = local_cache(class_tree_object)
 a['tree'] = tree

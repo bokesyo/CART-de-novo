@@ -1,6 +1,8 @@
 
 # Read the tree object we generated before
+# 从缓存中读取生成的模型
 from classRef.localCache import *
+# 我们的配置文件
 from config import *
 
 data = local_cache(reg_tree_object)
