@@ -2,11 +2,14 @@
 
 # 打印树的图像，不属于任务要求我们的范畴，所以我们用什么包都行。
 
+# 此模块仅用于调取「存储的模型」
 # Read the tree object we generated before
 from classRef.localCache import *
+
 # 海龟画图
 # Use turtle to draw a tree
 from turtle import *
+
 # 这是我们的配置文件
 from config import *
 
