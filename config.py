@@ -10,8 +10,8 @@ reg_graph_output = "tmp/regPrint.eps"
 class_graph_output = "tmp/classPrint.eps"
 
 
-class_tree_object = 'tmp/classTreeObject'
-reg_tree_object = 'tmp/regTreeObject'
+class_tree_object = 'tmp/classPrimaryTreeObject'
+reg_tree_object = 'tmp/regPrimaryTreeObject'
 
 
 class_execute_classifier = "tmp/classExecute.py"
