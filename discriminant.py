@@ -1,4 +1,24 @@
 
+from config import *
+from readData import *
+from classRef.localCache import *
+from tmp.regExecute import *
+data = local_cache(reg_tree_object)
+tree = data['tree']
+tree_root = tree.root
+data_dict = readCSV(train_dataset)
+
+
+def yuce(i):
+    prep = data_dict[i][0]
+    back = classifier(prep)
+    return back
+
+
+def guance(i):
+    back = data_dict[i][1]
+    return back
+
 
 def RSST0(node):
     iter_list = node.ID
@@ -46,7 +66,10 @@ def discrim(node):
     return output
 
 
-discrim(node)
+# discrim(tree.root)
+
+a = length(tree.root.left)
+print(a)
 
 """
 如果需要某个节点的 RSS(T1) - RSS(T0) / |T0| - |T1|
