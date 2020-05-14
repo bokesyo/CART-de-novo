@@ -77,8 +77,8 @@ def cutPointChoose(in_list):
 
         gini = ((sum1) / (sum1 + sum2)) * gini1 + ((sum2) / (sum1 + sum2)) * gini2
         result_list.append([i, gini])
-        print(gini)
-        print('______')
+        # print(gini)
+        # print('______')
 
     # 找最小值
     result_min = None

@@ -1,10 +1,7 @@
-from config import *
-
-
 def readCSV(filename):
     # 自定义文件名
     # 列的个数，手动修改
-    length = number_of_col
+    length = 12
     # 读取每行，临时存储
     data_temp = []
     for line in open(filename, 'r'):
@@ -39,8 +36,7 @@ def readCSV(filename):
             buf2 = eval(item)
             new_this_list.append(buf2)
         # 整理数据，写入
-        data_dict[i - 1] = [new_this_list, target]
+        data_dict[i - 1] = new_this_list + [target]
         i = i + 1
 
     return data_dict
-
