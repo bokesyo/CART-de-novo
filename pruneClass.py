@@ -131,7 +131,12 @@ class Prune:
             # print(tup)
             disc_list.append(tup)
 
-        # print('<<<<<<', disc_list)
+        print('<<<<<<', disc_list)
+
+        for result in disc_list:
+            if result[1] < 0:
+                index_r = disc_list.index(result)
+                del disc_list[index_r]
 
         result_min = None
         for result in disc_list:
@@ -142,7 +147,7 @@ class Prune:
                     result_min = result
         self.output = result_min
 
-        # print(self.output, '>>>>>>')
+        print(self.output, '>>>>>>')
 
     def processTree(self):
         node_name = self.output[0]

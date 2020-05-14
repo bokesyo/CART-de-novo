@@ -10,7 +10,7 @@ from innerPredictor import *
 data_dict = readCSV('inputData/test.csv')
 
 k = 1
-while k < 281:
+while k < 290:
     print(k)
     data = local_cache('tmp/reg/forest/' + str(k))
     tree = data['tree']
@@ -36,6 +36,6 @@ while k < 281:
     mae = ae / n
 
     print('The Mean Square Error of the sample is:', mse)
-    # print('The Mean Absolute Error of the sample is:', mae)
+    print('The Mean Absolute Error of the sample is:', mae)
     k += 1
 
