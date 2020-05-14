@@ -7,10 +7,10 @@ from readData import *
 from innerPredictor import *
 
 
-data_dict = readCSV('inputData/test.csv')
+data_dict = readCSV('inputData/remain_train.csv')
 
 k = 1
-while k < 290:
+while k < 443:
     print(k)
     data = local_cache('tmp/reg/forest/' + str(k))
     tree = data['tree']

@@ -23,9 +23,11 @@ class Prune:
         if self.length(node) == 1:
             return
         else:
-            self.node_list[node.name] = node
-            self.convert(node.left)
-            self.convert(node.right)
+            if (self.length(node.right) == 1) and (self.length(node.left) == 1):
+                self.node_list[node.name] = node
+            else:
+                self.convert(node.left)
+                self.convert(node.right)
         return
 
     def yuce(self, i):
@@ -132,11 +134,6 @@ class Prune:
             disc_list.append(tup)
 
         print('<<<<<<', disc_list)
-
-        for result in disc_list:
-            if result[1] < 0:
-                index_r = disc_list.index(result)
-                del disc_list[index_r]
 
         result_min = None
         for result in disc_list:
