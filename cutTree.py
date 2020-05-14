@@ -4,6 +4,8 @@ from importData_forPeng import *
 traincabinet = readCSV('inputData/partial_train.csv')
 data = local_cache('tmp/regTreeObject')
 tree = data['tree']
+# 以上是自动导入，无需注意
+# 我把 x.traincabinet 改为 traincainet, 可以直接用
 
 
 average = 0
@@ -11,14 +13,14 @@ predict_value = []
 original_score = []
 node_variance = []
 leaf = []
-for i in range(0,670):
+for i in range(0, 670):
     a = traincabinet[i]
     original_score.append(a[-1])
 
 result = None
 
 
-def node_search(t,target):
+def node_search(t, target):
     global result
     if t.name == target:
         result = t
@@ -26,16 +28,16 @@ def node_search(t,target):
         return 
     else:
         if t.left is not None:
-            node_search(t.left,target)
+            node_search(t.left, target)
         if t.right is not None:
-            node_search(t.right,target)
+            node_search(t.right, target)
 
 
 def RSST0(node):
     iter_list = node.ID
     rss = 0
     for i in iter_list:
-        predict = predict_value[i] # 我需要某一瓶红酒的「预测值」
+        predict = predict_value[i]  # 我需要某一瓶红酒的「预测值」
         observe = original_score[i]  # 我需要某一瓶红酒的「观测值」
         ris = predict - observe
         ris_squ = ris ** 2
@@ -58,7 +60,7 @@ def RSST1(node):
     avg = sum_a / count
 
     delta_square_sum = 0
-    for data in result_list:   #预测值列表
+    for data in result_list:   # 预测值列表
         delta_square = (data - avg) ** 2
         delta_square_sum = delta_square_sum + delta_square
 
@@ -100,14 +102,14 @@ def cut_tree(knife):
     flow_value = tree.delete(knife)
 
     for i in flow_value:
-        new_result = new_result + original_score[i]    #提取原先所有酒的分数计算平均值
+        new_result = new_result + original_score[i]    # 提取原先所有酒的分数计算平均值
     f = new_result/len(flow_value)
     knife.result = ('%.2f' % f)
     knife.type = 'terminal'
     return knife
 
 
-def filter(pointer,a):
+def filter(pointer, a):
     cut = str(pointer.condition).find('<')
     value = eval(str(pointer.condition)[cut+1:])
     index = str(pointer.condition)[0:cut]
@@ -120,37 +122,37 @@ def filter(pointer,a):
             predict_value.append(eval(pointer.result))
             return 
         else:
-            filter(pointer,a)
+            filter(pointer, a)
     else:
         pointer = pointer.right
         if pointer.type == 'terminal':
             predict_value.append(eval(pointer.result))
             return
         else:
-            filter(pointer,a)
+            filter(pointer, a)
 
 
 def process(knife):
     global predict_value, current_node
-    #cut_tree(knife)
-    for i in range(0,670):   #len（dict)
+    # cut_tree(knife)
+    for i in range(0, 670):   # len（dict)
         a = traincabinet[i]
         original_score.append(a[-1])
-        filter(result,a)
+        filter(result, a)
 
     f = discrim(knife)
     predict_value = []
-    node_variance.append((knife.name,eval('%.2f' % f)))
+    node_variance.append((knife.name, eval('%.2f' % f)))
 
 
 def main():
     global result
-    for i in range(1,tree.size+1):
+    for i in range(1, tree.size+1):
         if i == 1:
             pass
         else:
-            #current_node = copy.deepcopy(tree.root)
-            node_search(tree.root,i)
+            # current_node = copy.deepcopy(tree.root)
+            node_search(tree.root, i)
             print(i)
             if result.type != 'terminal':
                 process(result)

@@ -45,7 +45,7 @@ def cutPointChoose(in_list):
     # 对于每个切分点，做同样操作
     #
     #
-
+    # gini_list = []
     for i in arith_list:  # 候选切分点列表
 
         area1 = 0
@@ -78,9 +78,9 @@ def cutPointChoose(in_list):
 
         gini = ((sum1) / (sum1 + sum2)) * gini1 + ((sum2) / (sum1 + sum2)) * gini2
         result_list.append([i, gini])
-        # print(gini)
-        # print('______')
+        # gini_list.append(gini)
 
+    # print(gini_list)
     # 找最小值
     result_min = None
     for result in result_list:
