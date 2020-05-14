@@ -14,14 +14,14 @@ tree = Turtle()
 screen = Screen()
 
 # Set scale
-screensize(1000, 1000)
+screensize(5000, 5000)
 ext = 1000
 
 # Turtle goto the top of the screen
 tracer(0)
 tree.right(90)
 tree.penup()
-tree.goto(0, 480)
+tree.goto(0, 1600)
 tree.pendown()
 update()
 
@@ -50,7 +50,6 @@ def left_forward(node):
     tree.fd(calFloor(n))
     tree.right(90)
     tree.fd(20)
-
     if node.type == 'terminal':
         tree.pencolor('white')
         tree.fd(20)
@@ -91,7 +90,6 @@ def right_forward(node):
     tree.fd(calFloor(n))
     tree.left(90)
     tree.fd(20)
-
     if node.type == 'terminal':
         tree.pencolor('white')
         tree.fd(20)
@@ -112,6 +110,7 @@ def right_back(node):
         tree.fd(40)
     else:
         tree.fd(60)
+
     tree.right(90)
     tree.fd(calFloor(n))
     tree.left(90)

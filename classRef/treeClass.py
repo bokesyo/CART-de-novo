@@ -54,23 +54,13 @@ class Tree:
         return old
 
     # 删除节点
-    def delete(self,p):
-        if p.parent.left is p:
-            p.parent.left = None 
-        if p.parent.right is p:
-            p.parent.right = None 
-        return p.element
+    def delete(self, p):
+        if p.type == 'terminal':
+            return
+        else:
+            if p.left is not None:
+                p.left = None
+            if p.right is not None:
+                p.right = None
+        return p.ID
 
-    # t为root的名字,target 待定
-
-
-def node_search(t,target):
-    if t.name == target:
-        return t
-    if (t.left is None) and (t.right is None):
-        return None
-    else:
-        if t.left is not None:
-            node_search(t.left,target)
-        if t.right is not None:
-            node_search(t.right,target)

@@ -35,12 +35,14 @@ def RSST0(node):
 def RSST1(node):
     iter_list = node.ID
     result_list = []
+
     for i in iter_list:
         predict = yuce(i)  # 我需要filter返回某一瓶红酒的「预测值」
         result_list.append(predict)
 
     sum_a = 0
     count = 0
+
     for i in result_list:
         sum_a = sum_a + i
         count = count + 1
@@ -50,7 +52,6 @@ def RSST1(node):
     for data in result_list:
         delta_square = (data - avg) ** 2
         delta_square_sum = delta_square_sum + delta_square
-
     return delta_square_sum
 
 
@@ -63,12 +64,13 @@ def length(node):
 
 def discrim(node):
     output = (RSST1(node) - RSST0(node)) / (length(node) - 1)
+    print('rss t1', RSST1(node))
+    print('rss t2', RSST0(node))
     return output
 
 
-# discrim(tree.root)
+a = discrim(tree.root.right.right)
 
-a = length(tree.root.left)
 print(a)
 
 """
@@ -78,3 +80,6 @@ print(a)
 使用前请把yuce(i) 和 guance(i) 换成自己的接口
 
 """
+
+
+
