@@ -25,7 +25,7 @@ class classAssess:
             matrix = self.data_dict[keys]
             observation = matrix[1]
             print('<<<<<<<<', observation)
-            if observation >= 7.5:
+            if observation >= 6:
                 ob_s = 1
             else:
                 ob_s = -1

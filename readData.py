@@ -1,11 +1,9 @@
-# 读取配置文件
-from config import *
 
 
 def readCSV(filename):
     # 自定义文件名
     # 列的个数，手动修改
-    length = number_of_col
+    length = 12
     # 读取每行，临时存储
     data_temp = []
     for line in open(filename, 'r'):

@@ -1,11 +1,18 @@
-class regCompiler:
-    def __init__(self, tree, tree_id=0, address='default'):
+
+
+class Compiler:
+    def __init__(self, typ, tree, tree_id=0, address='default'):
         self.tree = tree
-
-        self.address = address
-
+        if address == 'default':
+            if typ == 'class':
+                self.address = 'tmp/class/exe' + str(tree_id) + '.py'
+            elif typ == 'reg':
+                self.address = 'tmp/reg/exe' + str(tree_id) + '.py'
+        else:
+            self.address = address
         self.fh = open(self.address, "w")
         self.fh.write('')  # clear the file
+
         self.fh = open(self.address, "a")
 
         self.indent = 0

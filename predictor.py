@@ -11,7 +11,6 @@ class Predictor:
         a = self.data_dict[i][0]
         self.filter(self.tree.root, a)
         yuce_answer = self.predict_value
-        # print('yuce', yuce_answer)
         return yuce_answer
 
     def filter(self, pointer, a):
