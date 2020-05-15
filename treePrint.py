@@ -1,5 +1,6 @@
 from classRef.localCache import *
 from turtle import *
+import time
 
 
 class Print:
@@ -31,12 +32,16 @@ class Print:
         k.parent = None
         self.drawTree(k)
         update()
-
+        time.sleep(2)
         if out_address:
-            self.scrren_shot = getscreen()
-            self.scrren_shot.getcanvas().postscript(file=out_address)
-
+            self.screen_shot = None
+            self.out_address = out_address
+        ontimer(self.output, 10000)
         done()
+
+    def output(self):
+        self.screen_shot = getscreen()
+        self.screen_shot.getcanvas().postscript(file=self.out_address)
 
     def getFloor(self, node):
         count = 0
@@ -152,5 +157,5 @@ class Print:
         return
 
 
-# Print('reg', 'tmp/reg/treeObj')
+# Print('reg', 'tmp/reg/forest/379', 'tmp/optimal_379.eps')
 
