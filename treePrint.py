@@ -32,11 +32,12 @@ class Print:
         k.parent = None
         self.drawTree(k)
         update()
-        time.sleep(2)
+
         if out_address:
             self.screen_shot = None
             self.out_address = out_address
         ontimer(self.output, 10000)
+
         done()
 
     def output(self):
