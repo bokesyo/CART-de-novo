@@ -24,7 +24,7 @@ while tree.size > 1:
 
 # Filtering
 m = 1
-for i in range(1, n):
+for i in range(1, n - 1):
     data = local_cache('tmp/reg/forest/' + str(m))
     tree = data['tree']
     A = regAsses('inputData/remain_train.csv', tree)
