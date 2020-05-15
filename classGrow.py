@@ -48,7 +48,7 @@ class classGrow:
             node.ID = id_list
             node.type = 'terminal'
             # print(result)
-            if result >= 7.5:
+            if result >= 6:
                 node.result = str(1)
             else:
                 node.result = str(-1)
