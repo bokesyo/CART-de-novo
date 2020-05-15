@@ -1,4 +1,4 @@
-from pruneClass import *
+from regPrune import *
 
 from classRef.localCache import *
 
@@ -16,7 +16,7 @@ n = 1
 
 while not stop:
 
-    this = Prune(tree, data_dict)
+    this = regPrune(tree, data_dict)
     tree = this.tree
 
     # 存储模块

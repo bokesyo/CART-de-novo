@@ -1,13 +1,12 @@
-from classGrow import *
-from classAssessment import *
+from regGrow import *
+from regAsses import *
 
-T = treeGrow('inputData/train.csv', 'tmp/reg/classObj')
+T = regGrow('inputData/partial_train.csv', 'tmp/reg/treeObj')
 tree = T.tree
 
-A = classAssess('dataProcess/wine.csv', tree)
-rate = A.rate
+A = regAsses('inputData/test.csv', tree)
 
-print(rate)
+print('MSE:', A.mse, 'MAE:', A.mae, 'Accuracy(+-1):', A.rate)
 
 
 

@@ -3,7 +3,7 @@ from turtle import *
 
 
 class Print:
-    def __init__(self, typ, address):
+    def __init__(self, typ, address, out_address=None):
         self.type = typ
         self.tree = Turtle()
         self.screen = Screen()
@@ -32,8 +32,10 @@ class Print:
         self.drawTree(k)
         update()
 
-        # self.scrren_shot = getscreen()
-        # self.scrren_shot.getcanvas().postscript(file='x')
+        if out_address:
+            self.scrren_shot = getscreen()
+            self.scrren_shot.getcanvas().postscript(file=out_address)
+
         done()
 
     def getFloor(self, node):
@@ -150,5 +152,5 @@ class Print:
         return
 
 
-# Print('class', 'tmp/class/treeObj')
+# Print('reg', 'tmp/reg/treeObj')
 

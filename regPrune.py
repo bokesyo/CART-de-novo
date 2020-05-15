@@ -1,4 +1,4 @@
-class Prune:
+class regPrune:
     def __init__(self, tree, data_dict):
         self.item = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides',
                      'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol', 'score']
