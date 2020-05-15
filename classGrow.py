@@ -31,7 +31,7 @@ class classGrow:
         # Get started!
         self.grow(back_initial, id_list, root_node)
 
-        if not out_address:
+        if out_address:
             data = local_cache(out_address)
             data['tree'] = self.tree
 
@@ -48,10 +48,11 @@ class classGrow:
             node.condition = ''
             node.ID = id_list
             node.type = 'terminal'
-            if result >= 6:
-                node.result = 1
+            # print(result)
+            if result >= 7.5:
+                node.result = str(1)
             else:
-                node.result = -1
+                node.result = str(-1)
             return
 
         # If data is not pure, continue splitting
@@ -213,7 +214,6 @@ class classGrow:
                 if i != j:
                     return False
         return True
-
     #
     #
 
@@ -230,3 +230,7 @@ class classGrow:
     #
     #
     #
+
+
+# classGrow('inputData/train.csv', 'tmp/class/treeObj')
+

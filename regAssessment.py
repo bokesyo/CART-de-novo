@@ -1,7 +1,7 @@
 # Assessment Module
 
 from config import *
-from innerPredictor import *
+from predictor import *
 
 # CSV reader
 # 我们的数据读取程序

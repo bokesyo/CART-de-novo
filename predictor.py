@@ -36,7 +36,10 @@ class Predictor:
             pointer = pointer.right
             if pointer.type == 'terminal':
                 # print(pointer.result)
-                # print(type(pointer.result))
+
+                print(type(pointer.result))
+                print(pointer.result)
+
                 prep = eval(pointer.result)
 
                 self.predict_value = prep

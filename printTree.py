@@ -156,3 +156,5 @@ class Print:
         return
 
 
+Print('class', 'tmp/class/treeObj')
+

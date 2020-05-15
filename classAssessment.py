@@ -1,6 +1,6 @@
 
 from readData import *
-from innerPredictor import *
+from predictor import *
 from classRef.localCache import *
 from classRef.treeClass import *
 
@@ -24,12 +24,13 @@ class classAssess:
         for keys in self.data_dict:
             matrix = self.data_dict[keys]
             observation = matrix[1]
-            if observation >= 6:
+            print('<<<<<<<<', observation)
+            if observation >= 7.5:
                 ob_s = 1
             else:
                 ob_s = -1
-
             prediction = self.predictor.yuce(keys)
+            print(prediction, '>>>>>>>')
             if prediction == ob_s:
                 acc += 1
             else:
@@ -38,4 +39,6 @@ class classAssess:
         self.rate = acc / n
 
 
-classAssess('tmp/classPrimary')
+# A = classAssess('dataProcess/test.csv', 'tmp/class/treeObj')
+# print(A.rate)
+

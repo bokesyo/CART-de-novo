@@ -4,17 +4,18 @@ from classRef.localCache import *
 
 from readData import *
 
-from innerPredictor import *
+from predictor import *
 
 
-data_dict = readCSV('dataProcess/test.csv')
+data_dict = readCSV('dataProcess/wine.csv')
 
 k = 1
-while k < 443:
+while k < 2:
 
     result_list = []
     print(k)
     data = local_cache('tmp/reg/forest/' + str(k))
+    # data = local_cache('tmp/class/treeObj')
     tree = data['tree']
     this_predictor = Predictor(tree, data_dict)
 
