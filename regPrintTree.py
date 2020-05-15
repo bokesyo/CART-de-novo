@@ -38,7 +38,7 @@ def getFloor(node):
 
 
 def calFloor(n):
-    return ext * ((1/2) ** n + 2 ** (n-15))
+    return ext * ((1/2) ** n + 2 ** (n-27))
 
 
 def left_forward(node):
@@ -137,7 +137,7 @@ def drawTree(node):
 
 
 # data = local_cache(reg_tree_object)
-data = local_cache('tmp/reg/forest/380')
+data = local_cache('tmp/reg/forest/389')
 tlee = data['tree']
 tree_root = tlee.root
 

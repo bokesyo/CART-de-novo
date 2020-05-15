@@ -7,7 +7,7 @@ from readData import *
 from innerPredictor import *
 
 
-data_dict = readCSV('inputData/remain_train.csv')
+data_dict = readCSV('dataProcess/test.csv')
 
 k = 1
 while k < 443:

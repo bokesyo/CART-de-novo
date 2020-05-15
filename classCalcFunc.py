@@ -57,11 +57,11 @@ def cutPointChoose(in_list):
         for data_pair in in_list:
             c = data_pair[0]
             b = data_pair[1]
-            if c >= i and b >= 6:
+            if c >= i and b >= 7.5:
                 area1 += 1
-            elif c >= i and b < 6:
+            elif c >= i and b < 7.5:
                 area2 += 1
-            elif c < i and b >= 6:
+            elif c < i and b >= 7.5:
                 area3 += 1
             else:
                 area4 += 1
