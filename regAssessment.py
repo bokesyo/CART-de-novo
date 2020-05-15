@@ -8,7 +8,7 @@ from innerPredictor import *
 from readData import *
 
 from classRef.localCache import *
-data = local_cache('tmp/reg/forest/435')
+data = local_cache('tmp/reg/forest/379')
 tree = data['tree']
 
 # Import all testing data

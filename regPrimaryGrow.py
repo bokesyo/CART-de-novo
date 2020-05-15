@@ -111,5 +111,3 @@ grow(back_initial, id_list, root_node)
 a = local_cache(reg_tree_object)
 a['tree'] = tree
 
-from regCompile import *
-regCompiler(tree, 0, 'tmp/regExe.py')

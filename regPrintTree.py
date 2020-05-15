@@ -38,7 +38,7 @@ def getFloor(node):
 
 
 def calFloor(n):
-    return ext * ((1/2) ** n + 2 ** (n-27))
+    return ext * ((1/2) ** n + 2 ** (n-15))
 
 
 def left_forward(node):
@@ -57,7 +57,8 @@ def left_forward(node):
         tree.pencolor('white')
         tree.fd(20)
         tree.pencolor('blue')
-        tree.write(str(node.result))
+        a = '%.2f' % float(node.result)
+        tree.write(a)
         pass
     else:
         tree.fd(20)
@@ -97,7 +98,8 @@ def right_forward(node):
         tree.pencolor('white')
         tree.fd(20)
         tree.pencolor('red')
-        tree.write(str(node.result))
+        a = '%.2f' % float(node.result)
+        tree.write(a)
         pass
     else:
         tree.fd(20)
@@ -135,7 +137,7 @@ def drawTree(node):
 
 
 # data = local_cache(reg_tree_object)
-data = local_cache('tmp/reg/forest/400')
+data = local_cache('tmp/reg/forest/380')
 tlee = data['tree']
 tree_root = tlee.root
 
