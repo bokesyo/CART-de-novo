@@ -10,14 +10,35 @@ class regPrune:
 
         self.node_list = {}
         self.convert(self.tree.root)
-        # print(self.node_list)
 
         self.predict_value = None
 
         self.output = None
-        self.weakNode()
 
-        self.processTree()
+        self.this_stop = False
+
+        self.simplify()
+
+        if not self.this_stop:
+            self.weakNode()
+            self.processTree()
+
+    def simplify(self):
+        node_list = self.node_list
+        disc_list = []
+        for i in node_list:
+            node = node_list[i]
+            result = self.discrim(node)
+            tup = (node.name, result)
+            disc_list.append(tup)
+
+        for tup in disc_list:
+            if tup[1] == 0:
+                self.this_stop = True
+                self.output = tup
+                self.processTree()
+        self.node_list = {}
+        self.convert(self.tree.root)
 
     def convert(self, node):
         if self.length(node) == 1:
@@ -156,6 +177,7 @@ class regPrune:
         return output
 
     def weakNode(self):
+
         node_list = self.node_list
         # print(node_list)
         disc_list = []
@@ -167,8 +189,6 @@ class regPrune:
             # print(tup)
             disc_list.append(tup)
 
-        print('<<<<<<', disc_list)
-
         result_min = None
         for result in disc_list:
             if not result_min:
@@ -176,9 +196,8 @@ class regPrune:
             else:
                 if result[1] <= result_min[1]:
                     result_min = result
-        self.output = result_min
 
-        print(self.output, '>>>>>>')
+        self.output = result_min
 
     def processTree(self):
         node_name = self.output[0]
