@@ -34,7 +34,7 @@ sys.setrecursionlimit(999999)
 
 
 # Import all data
-data_dict = readCSV(train_dataset)
+data_dict = readCSV('inputData/partial_train.csv')
 
 # Initialize tree object
 tree = Tree()
@@ -111,3 +111,5 @@ grow(back_initial, id_list, root_node)
 a = local_cache(reg_tree_object)
 a['tree'] = tree
 
+from regCompile import *
+regCompiler(tree, 0, 'tmp/regExe.py')

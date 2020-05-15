@@ -30,11 +30,10 @@ class Prune:
                 self.convert(node.right)
         return
 
-    def yuce(self, i):
+    def yuce(self, node, i):
         a = self.data_dict[i][0]
-        self.filter(self.tree.root, a)
+        self.filter(node, a)
         yuce_answer = self.predict_value
-        # print('yuce', yuce_answer)
         return yuce_answer
 
     def guance(self, i):
@@ -73,27 +72,62 @@ class Prune:
                 self.filter(pointer, a)
 
     def RSST0(self, node):
-        iter_list = node.ID
-        rss = 0
-        for i in iter_list:
-            predict = self.yuce(i)
-            observe = self.guance(i)
-            ris = predict - observe
-            ris_squ = ris ** 2
-            rss += ris_squ
-        return rss
+        iter_list_1 = node.left.ID
+        result_list = []
+
+        for i in iter_list_1:
+            predict = self.yuce(node, i)
+            result_list.append(predict)
+
+        sum_a = 0
+        count = 0
+        # print(result_list)
+
+        for i in result_list:
+            sum_a = sum_a + i
+            count = count + 1
+        avg = sum_a / count
+
+        delta_square_sum_1 = 0
+        for data in result_list:
+            delta_square = (data - avg) ** 2
+            delta_square_sum_1 = delta_square_sum_1 + delta_square
+
+        iter_list_2 = node.left.ID
+        result_list = []
+
+        for i in iter_list_2:
+            predict = self.yuce(node, i)
+            result_list.append(predict)
+
+        sum_a = 0
+        count = 0
+        # print(result_list)
+
+        for i in result_list:
+            sum_a = sum_a + i
+            count = count + 1
+        avg = sum_a / count
+
+        delta_square_sum_2 = 0
+        for data in result_list:
+            delta_square = (data - avg) ** 2
+            delta_square_sum_2 = delta_square_sum_2 + delta_square
+
+        return delta_square_sum_1 + delta_square_sum_2
 
     def RSST1(self, node):
         iter_list = node.ID
         result_list = []
 
         for i in iter_list:
-            predict = self.yuce(i)
+            predict = self.yuce(node, i)
             result_list.append(predict)
 
         sum_a = 0
         count = 0
         # print(result_list)
+
         for i in result_list:
             sum_a = sum_a + i
             count = count + 1
@@ -153,7 +187,7 @@ class Prune:
         sums = 0
         nums = 0
         for obj in node.ID:
-            sums += self.yuce(obj)
+            sums += self.yuce(node, obj)
             nums += 1
         avg_score = str(sums / nums)
 
@@ -163,6 +197,7 @@ class Prune:
         node.left = None
         node.right = None
         node.type = 'terminal'
+        print('LENGTH', self.tree.size)
 
         self.tree.size -= self.cost_length
 

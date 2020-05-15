@@ -135,7 +135,7 @@ def drawTree(node):
 
 
 # data = local_cache(reg_tree_object)
-data = local_cache('tmp/reg/forest/15')
+data = local_cache('tmp/reg/forest/400')
 tlee = data['tree']
 tree_root = tlee.root
 
