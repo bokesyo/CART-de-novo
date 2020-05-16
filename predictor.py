@@ -44,8 +44,7 @@ class Predictor:
                 # print(pointer.result)
                 # print(type(pointer.result))
                 # print(pointer.ID)
-                print(pointer.ID)
-                print(pointer.result)
+                # print(pointer.result)
                 prep = eval(pointer.result)
                 self.predict_value = prep
                 self.predict_node = pointer

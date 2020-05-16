@@ -2,6 +2,7 @@ from classRef.localCache import *
 from predictor import *
 from readData import *
 
+
 def transfer(matrix):
     """
     矩阵的「转置」操作
@@ -124,7 +125,7 @@ def reverse_step3(m):
 
 def reverse(matrix):
     """
-    求矩阵的「逆」总控制
+    求矩阵的「逆」总控
     :param matrix:
     :return:
     """
@@ -152,6 +153,9 @@ def reverse(matrix):
 
 
 class Regress:
+    """
+    多元线性回归 计算 12 个系数
+    """
     def __init__(self, node, data_dict):
         self.data_dict = data_dict
         self.node = node
@@ -176,6 +180,9 @@ class Regress:
 
 
 class OptRegress:
+    """
+    剔除不明显的变量，最优化回归
+    """
     def __init__(self, node, data_dict):
         self.item = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides',
                      'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
@@ -214,12 +221,19 @@ class OptRegress:
             print(self.string)
 
     def corr(self, list1, list2):
+        """
+        计算相关系数 Cor
+        :param list1:
+        :param list2:
+        :return:
+        """
         sum_x_y = 0
         sum_x_x = 0
         sum_x = 0
         sum_y = 0
         sum_y_y = 0
         n = len(list1)
+
         for j in range(0, n):
             x_y = list1[j] * list2[j]
             sum_x_y += x_y
@@ -243,6 +257,11 @@ class OptRegress:
             return 0
 
     def process(self, n):
+        """
+        处理数据
+        :param n:
+        :return:
+        """
         list1 = []
         list2 = []
         # print(id_list)
@@ -259,6 +278,11 @@ class OptRegress:
         return r
 
     def prepare(self, can):
+        """
+        处理数据
+        :param can:
+        :return:
+        """
         reg_list = {}
         for k in self.id_list:
             this_list = []
@@ -271,36 +295,36 @@ class OptRegress:
 
 
 class M5:
-    def __init__(self, data_dict, switch=None):
+    def __init__(self, data_dict, start, end):
+        """
+        M5 算法，提高回归树的性能。
+        :param data_dict:
+        """
         self.data_dict = data_dict
         self.n = 1
         self.R = None
         self.P = None
         self.mse_list = []
         self.count = 1
-        if not switch:
-            for k in range(2, 999):
-
-                try:
-                    # Read File
-
-                    self.tree = local_cache('tmp/reg/forest/' + str(k))['tree']
-                    node = self.tree.root
-                    # Process
-                    self.main(node)
-
-                    # Evaluate
-                    self.evaluate()
-
-                    # Write File
-                    local_cache('tmp/reg/forest/' + str(k))['tree'] = self.tree
-
-                except:
-                    pass
+        for k in range(start, end):
+            # Read File
+            self.tree = local_cache('tmp/reg/forest/' + str(k))['tree']
+            node = self.tree.root
+            # Process
+            self.main(node)
+            # Write File
+            local_cache('tmp/reg/forest/' + str(k))['tree'] = self.tree
+            # Evaluate
+            self.evaluate(k)
+            # print('3 ok')
 
     def main(self, node):
         if node.type == 'terminal':
-            print(self.n)
+            if len(node.ID) == 1:
+                return
+
+            # print(self.n)
+
             self.n += 1
             self.R = OptRegress(node, self.data_dict)
 
@@ -315,15 +339,23 @@ class M5:
                 self.main(node.right)
         return
 
-    def evaluate(self):
+    def evaluate(self, count):
+        """
+        评估提高后的性能，算 MSE
+        :return:
+        """
+        # print('1 ok')
         self.P = Predictor(self.tree, self.data_dict)
         se = 0
+        # print('2 ok')
         for wine in self.data_dict:
             pre = self.P.yuce(wine)
+            # print('pre', pre)
             obs = self.data_dict[wine][1]
             se += (pre - obs) ** 2
+
         mse = se / len(self.data_dict)
-        tup = (self.count, mse)
+        tup = (count, mse)
         self.mse_list.append(tup)
         self.count += 1
 

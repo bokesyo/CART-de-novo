@@ -67,7 +67,7 @@ class Compiler:
 from readData import *
 from classRef.localCache import *
 
-tree = local_cache('tmp/reg/forest/250')['tree']
+tree = local_cache('tmp/reg/forest/567')['tree']
 
 C = Compiler('reg', tree, 0, 'tmp/reg/exe.py')
 

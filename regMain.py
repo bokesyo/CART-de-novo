@@ -3,11 +3,13 @@ from regAsses import *
 from regPrune import *
 from readData import *
 from M5 import *
+"""
+M5 是自己编写的 M5 算法执行模块
+"""
 
 
 data_dict = readCSV('inputData/partial_train.csv')
 
-"""
 
 print('The tree is growing, please wait a few seconds. (About 5 seconds on MacBook Pro)')
 # Growing
@@ -47,6 +49,7 @@ for i in range(1, n - 1):
     m = m + 1
 
 
+
 optimal = None
 for tup in tup_list:
     if not optimal:
@@ -75,28 +78,13 @@ print(optimal[0], 'th tree is the optimal tree, MSE is', A.mse, 'R2 is', A.R2, '
 
 
 print('Testing finished.')
-"""
-
-print('Now we use M5 algorithm to optimize our model!')
-m5 = M5(data_dict, 1)
-
-m5.tree = local_cache('tmp/reg/forest/' + str(591))['tree']
-node = m5.tree.root
-# Process
-m5.main(node)
-# Evaluate
-m5.evaluate()
-
-print(m5.getMSE())
-# Write File
-local_cache('tmp/reg/forest/' + str(591))['tree'] = m5.tree
-
-"""
 
 
+m5 = M5(data_dict, 560, 592)
 result_list = m5.mse_list
 
-print(result_list)
+print('>>>>', result_list)
+
 
 min_mse = None
 for tup in result_list:
@@ -108,11 +96,24 @@ for tup in result_list:
 
 optimal_tree_id = min_mse[0]
 
-data = local_cache('tmp/reg/forest/' + str(optimal_tree_id))
-tree = data['tree']
 
-A = regAsses('inputData/test.csv', tree)
+for s in result_list:
+    tree = local_cache('tmp/reg/forest/' + str(s[0]))['tree']
+    A = regAsses('inputData/test.csv', tree)
+    print('By using M5 algorithm,', s[0], 'th tree MSE is', A.mse)
 
-print('By using M5 algorithm,', optimal_tree_id, 'th tree is the optimal tree, MSE is', A.mse)
+print('the lowest MSE will be :', )
+
+
+"""
+optimal = None
+for tup in result_list:
+    if not optimal:
+        optimal = tup
+    else:
+        if tup[1] < optimal[1]:
+            optimal = tup
+
+print(optimal[0], 'th candidate is the optimized tree with a MSE of ', optimal[1])
 
 """
