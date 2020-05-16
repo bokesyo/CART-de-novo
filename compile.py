@@ -64,3 +64,10 @@ class Compiler:
             pass
 
 
+from readData import *
+from classRef.localCache import *
+
+tree = local_cache('tmp/reg/forest/250')['tree']
+
+C = Compiler('reg', tree, 0, 'tmp/reg/exe.py')
+

@@ -3,17 +3,23 @@ from readData import *
 from classRef.localCache import *
 from compile import *
 
-tree = local_cache('tmp/reg/144')['tree']
+tree = local_cache('tmp/reg/forest/108')['tree']
 
 data_dict = readCSV('inputData/partial_train.csv')
 
 C = Compiler('reg', tree, 0, 'tmp/reg/exe.py')
 
 
+n = 0
+
+
 def main(node):
+    global n
     if node.type == 'terminal':
-        R = OptRegress(node, data_dict)
-        print(R.string)
+        n += 1
+        R = Regress(node, data_dict)
+        print(n)
+        print(R.beta)
         return
     else:
         if node.left:
@@ -25,7 +31,7 @@ def main(node):
 
 # main(tree.root)
 
-R = OptRegress(tree.root, data_dict)
-print(R.string)
+R = Regress(tree.root, data_dict)
+print(R.beta)
 
 

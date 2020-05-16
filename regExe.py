@@ -23,12 +23,44 @@ class Regress:
         self.beta = multiply(reverse(multiply(transfer(mat_x), mat_x)), multiply(transfer(mat_x), mat_y))
 
 
-data_dict = readCSV('inputData/train copy.csv')
+def corr(list1, list2):
+    sum_x_y = 0
+    sum_x_x = 0
+    sum_x = 0
+    sum_y = 0
+    sum_y_y = 0
+    n = len(list1)
+    for j in range(0, n):
+        x_y = list1[j] * list2[j]
+        sum_x_y += x_y
+        x_x = list1[j] ** 2
+        sum_x_x += x_x
+        y_y = list2[j] ** 2
+        sum_y_y += y_y
+        x = list1[j]
+        sum_x += x
+        y = list2[j]
+        sum_y += y
+    b = ((n * sum_x_y) - sum_x * sum_y) / (n * sum_x_x - sum_x ** 2)
+    a = (sum_y - b * sum_x) / n
 
-test_dict = readCSV('inputData/test copy.csv')
+    # print(n)
+    # print(sum_x, 'sumx')
+    # print(sum_x_x, 'sumxx')
+    # print(sum_y, 'sumy')
+    # print(sum_y_y, 'sumyy')
+    # print(sum_x_y, 'sumxy')
+
+    r = (n * sum_x_y - sum_x * sum_y) / ((n * sum_x_x - sum_x ** 2) * (n * sum_y_y - sum_y ** 2)) ** 0.5
+    return r
+
+
+data_dict = readCSV('inputData/train.csv')
+
+test_dict = readCSV('inputData/test.csv')
 
 R = Regress(data_dict)
-
+print(R.beta)
 beta = R.beta
 
 n = 0
@@ -36,20 +68,29 @@ constant = beta[0][0]
 del beta[0]
 
 
+mat_x = []
+mat_y = []
 moment = 0
 for i in test_dict:
     var = constant
     obs = test_dict[i][1]
-    print(obs)
+    mat_x.append(obs)
+    # print(obs)
     mat = test_dict[i][0]
-    print(mat)
+    # print(mat)
     for j in range(0, len(mat)):
         product = beta[j][0] * mat[j]
         var += product
-    print(var)
+    # print(var)
     moment += (var - obs) ** 2
+    mat_y.append(var)
 
 mse = moment / len(test_dict)
 
 print(mse)
+
+print(mat_x)
+print(mat_y)
+cor = corr(mat_x, mat_y)
+print(cor)
 

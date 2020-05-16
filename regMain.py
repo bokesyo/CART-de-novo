@@ -37,8 +37,8 @@ for i in range(1, n - 1):
     data = local_cache('tmp/reg/forest/' + str(m))
     tree = data['tree']
     A = regAsses('inputData/remain_train.csv', tree)
-    print('This is the ', m, 'th candidate tree, MSE is', A.mse, ', MAE is', A.mae, ', Accuracy is ', A.rate)
-    tup = (m, A.mse)
+    print('This is the ', m, 'th candidate tree, MSE is', A.mse, 'R2 is', A.R2, 'Cor', A.cor)
+    tup = (m, A.mse, A.R2, A.cor, A.nmse)
     tup_list.append(tup)
     m = m + 1
 
@@ -52,7 +52,8 @@ for tup in tup_list:
             optimal = tup
 
 
-print(optimal[0], 'th candidate is the optimized tree with a MSE of ', optimal[1])
+print(optimal[0], 'th candidate is the optimized tree with a MSE of ', optimal[1], 'R2 is', str(optimal[2]),
+      'Correlation Coefficient is', optimal[3])
 
 print('Cross validation ends.')
 
@@ -60,10 +61,19 @@ print('Cross validation ends.')
 # Testing
 print('Testing begins.')
 
+# for i in range(1, m - 1):
+#    data = local_cache('tmp/reg/forest/' + str(i))
+#    tree = data['tree']
+#    A = regAsses('inputData/test.csv', tree)
+#    print(str(i), 'MSE is', A.mse, ', MAE is', A.mae, ', Accuracy is ', A.rate)
+
+
+print('Here is the best tree.')
 data = local_cache('tmp/reg/forest/' + str(optimal[0]))
 tree = data['tree']
 A = regAsses('inputData/test.csv', tree)
-print('MSE is', A.mse, ', MAE is', A.mae, ', Accuracy is ', A.rate)
+print(optimal[0], 'th tree is the optimal tree, MSE is', A.mse, 'R2 is', A.R2, 'Cor is', A.cor)
+
 
 print('Testing finished.')
 

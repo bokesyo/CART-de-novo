@@ -17,7 +17,12 @@ class Regress:
             mat_x.append(X)
             Y = [self.data_dict[i][1]]
             mat_y.append(Y)
-        self.beta = multiply(reverse(multiply(transfer(mat_x), mat_x)), multiply(transfer(mat_x), mat_y))
+        print(mat_x)
+        print(mat_y)
+        if len(mat_y) == 1:
+            self.beta = None
+        else:
+            self.beta = multiply(reverse(multiply(transfer(mat_x), mat_x)), multiply(transfer(mat_x), mat_y))
 
 
 class OptRegress:
@@ -33,7 +38,7 @@ class OptRegress:
         for i in range(0, 11):
             r = self.process(i)
             # print(r)
-            if abs(r) >= 0.1:
+            if abs(r) >= 0.2:
                 can_list.append(i)
 
         reg_dict = self.prepare(can_list)
@@ -72,20 +77,16 @@ class OptRegress:
             sum_x += x
             y = list2[j]
             sum_y += y
-        b = ((n * sum_x_y) - sum_x * sum_y) / (n * sum_x_x - sum_x ** 2)
-        a = (sum_y - b * sum_x) / n
 
-        # print(n)
-        # print(sum_x, 'sumx')
-        # print(sum_x_x, 'sumxx')
-        # print(sum_y, 'sumy')
-        # print(sum_y_y, 'sumyy')
-        # print(sum_x_y, 'sumxy')
+        print(list1, list2)
 
-        if sum_y == n * y:
+        try:
+            b = ((n * sum_x_y) - sum_x * sum_y) / (n * sum_x_x - sum_x ** 2)
+            a = (sum_y - b * sum_x) / n
+            r = (n * sum_x_y - sum_x * sum_y) / ((n * sum_x_x - sum_x ** 2) * (n * sum_y_y - sum_y ** 2)) ** 0.5
+            return r
+        except:
             return 0
-        r = (n * sum_x_y - sum_x * sum_y) / ((n * sum_x_x - sum_x ** 2) * (n * sum_y_y - sum_y ** 2)) ** 0.5
-        return r
 
     def process(self, n):
         list1 = []
@@ -108,6 +109,6 @@ class OptRegress:
                 this = self.data_dict[k][0][j]
                 this_list.append(this)
             reg_list[k] = [this_list, self.data_dict[k][1]]
-        # print(reg_list)
+        print(reg_list)
         return reg_list
 
