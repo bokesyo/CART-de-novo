@@ -32,10 +32,10 @@ class OptRegress:
 
         for i in range(0, 11):
             r = self.process(i)
-            print(r)
+            # print(r)
             if abs(r) >= 0.3:
                 can_list.append(i)
-        # print(can_list)
+
         reg_dict = self.prepare(can_list)
         L = Regress(node, reg_dict)
         beta = L.beta
@@ -74,6 +74,16 @@ class OptRegress:
             sum_y += y
         b = ((n * sum_x_y) - sum_x * sum_y) / (n * sum_x_x - sum_x ** 2)
         a = (sum_y - b * sum_x) / n
+
+        # print(n)
+        # print(sum_x, 'sumx')
+        # print(sum_x_x, 'sumxx')
+        # print(sum_y, 'sumy')
+        # print(sum_y_y, 'sumyy')
+        # print(sum_x_y, 'sumxy')
+
+        if sum_y == n * y:
+            return 0
         r = (n * sum_x_y - sum_x * sum_y) / ((n * sum_x_x - sum_x ** 2) * (n * sum_y_y - sum_y ** 2)) ** 0.5
         return r
 
@@ -98,6 +108,6 @@ class OptRegress:
                 this = self.data_dict[k][0][j]
                 this_list.append(this)
             reg_list[k] = [this_list, self.data_dict[k][1]]
-        print(reg_list)
+        # print(reg_list)
         return reg_list
 
