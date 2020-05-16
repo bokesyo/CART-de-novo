@@ -2,8 +2,12 @@ from regGrow import *
 from regAsses import *
 from regPrune import *
 from readData import *
+from M5 import *
+
 
 data_dict = readCSV('inputData/partial_train.csv')
+
+"""
 
 print('The tree is growing, please wait a few seconds. (About 5 seconds on MacBook Pro)')
 # Growing
@@ -61,19 +65,54 @@ print('Cross validation ends.')
 # Testing
 print('Testing begins.')
 
-# for i in range(1, m - 1):
-#    data = local_cache('tmp/reg/forest/' + str(i))
-#    tree = data['tree']
-#    A = regAsses('inputData/test.csv', tree)
-#    print(str(i), 'MSE is', A.mse, ', MAE is', A.mae, ', Accuracy is ', A.rate)
-
 
 print('Here is the best tree.')
 data = local_cache('tmp/reg/forest/' + str(optimal[0]))
 tree = data['tree']
+
 A = regAsses('inputData/test.csv', tree)
 print(optimal[0], 'th tree is the optimal tree, MSE is', A.mse, 'R2 is', A.R2, 'Cor is', A.cor)
 
 
 print('Testing finished.')
+"""
 
+print('Now we use M5 algorithm to optimize our model!')
+m5 = M5(data_dict, 1)
+
+m5.tree = local_cache('tmp/reg/forest/' + str(591))['tree']
+node = m5.tree.root
+# Process
+m5.main(node)
+# Evaluate
+m5.evaluate()
+
+print(m5.getMSE())
+# Write File
+local_cache('tmp/reg/forest/' + str(591))['tree'] = m5.tree
+
+"""
+
+
+result_list = m5.mse_list
+
+print(result_list)
+
+min_mse = None
+for tup in result_list:
+    if not min_mse:
+        min_mse = tup
+    else:
+        if tup[1] <= min_mse[1]:
+            min_mse = tup
+
+optimal_tree_id = min_mse[0]
+
+data = local_cache('tmp/reg/forest/' + str(optimal_tree_id))
+tree = data['tree']
+
+A = regAsses('inputData/test.csv', tree)
+
+print('By using M5 algorithm,', optimal_tree_id, 'th tree is the optimal tree, MSE is', A.mse)
+
+"""

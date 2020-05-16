@@ -158,5 +158,5 @@ class Print:
         return
 
 
-Print('reg', 'tmp/reg/forest/200', 'tmp/optimal_200.eps')
+Print('reg', 'tmp/reg/forest/400')
 

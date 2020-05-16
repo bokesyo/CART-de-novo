@@ -51,35 +51,8 @@ class regPrune:
         self.node_list = {}
         self.convert(self.tree.root)
 
-        # 第一次运行，会执行这个
-        # 我们的树 over-fit 了，第一步就是把所有的「合并后不影响准确度」的节点删掉
-        self.simplify()
-
-        # 正常情况
-        if not self.this_stop:
-            self.weakNode()
-            self.processTree()
-
-    def simplify(self):
-        """
-        这就是为了把「合并后不影响准确度」的节点删掉。 没有临床价值。略过。
-        :return:
-        """
-        node_list = self.node_list
-        disc_list = []
-        for i in node_list:
-            node = node_list[i]
-            result = self.discrim(node)
-            tup = (node.name, result)
-            disc_list.append(tup)
-
-        for tup in disc_list:
-            if tup[1] == 0:
-                self.this_stop = True
-                self.output = tup
-                self.processTree()
-        self.node_list = {}
-        self.convert(self.tree.root)
+        self.weakNode()
+        self.processTree()
 
     def convert(self, node):
         """
@@ -315,7 +288,7 @@ class regPrune:
         sums = 0
         nums = 0
         for obj in node.ID:
-            sums += self.yuce(node, obj)
+            sums += self.guance(obj)
             nums += 1
         avg_score = str(sums / nums)
 

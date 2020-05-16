@@ -2,7 +2,8 @@ from readData import *
 from predictor import *
 from classRef.localCache import *
 from classRef.treeClass import *
-from classRef.matrix import *
+from M5 import *
+
 
 class regAsses:
     def __init__(self, in_address, tree):

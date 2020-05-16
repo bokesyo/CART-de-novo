@@ -1,4 +1,4 @@
-from linearReg import *
+from M5 import *
 from readData import *
 from classRef.localCache import *
 from compile import *
