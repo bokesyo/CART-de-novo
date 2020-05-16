@@ -110,3 +110,5 @@ def reverse(matrix):
         for j in range(0, n):
             new[i][j] = new[i][j] / l3[i]
     return new
+
+

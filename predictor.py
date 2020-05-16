@@ -6,6 +6,7 @@ class Predictor:
         self.data_dict = data_dict
 
         self.predict_value = None
+        self.predict_node = None
 
     def yuce(self, i):
         a = self.data_dict[i][0]
@@ -26,8 +27,8 @@ class Predictor:
                 # print(pointer.result)
                 # print(type(pointer.result))
                 prep = eval(pointer.result)
-
                 self.predict_value = prep
+                self.predict_node = pointer
                 return
             else:
                 self.filter(pointer, a)
@@ -42,6 +43,7 @@ class Predictor:
                 prep = eval(pointer.result)
 
                 self.predict_value = prep
+                self.predict_node = pointer
                 return
             else:
                 self.filter(pointer, a)
