@@ -33,7 +33,7 @@ class OptRegress:
         for i in range(0, 11):
             r = self.process(i)
             # print(r)
-            if abs(r) >= 0.3:
+            if abs(r) >= 0.1:
                 can_list.append(i)
 
         reg_dict = self.prepare(can_list)

@@ -45,9 +45,11 @@ class regAsses:
             matrix = self.data_dict[keys]
             observation = matrix[1]
             prediction = self.predictor.yuce(keys)
+
             if abs(observation - prediction) < 1:
-                ac += 1
+               ac += 1
             n = n + 1
+
         acc = ac / n
 
         self.rate = acc

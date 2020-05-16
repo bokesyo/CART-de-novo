@@ -7,7 +7,7 @@ tree = local_cache('tmp/reg/144')['tree']
 
 data_dict = readCSV('inputData/partial_train.csv')
 
-C =Compiler('reg', tree, 0, 'tmp/reg/exe.py')
+C = Compiler('reg', tree, 0, 'tmp/reg/exe.py')
 
 
 def main(node):
@@ -23,7 +23,9 @@ def main(node):
     return
 
 
-main(tree.root)
+# main(tree.root)
 
+R = OptRegress(tree.root, data_dict)
+print(R.string)
 
 
