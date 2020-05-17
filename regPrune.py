@@ -1,9 +1,14 @@
+"""
+这是 「回归树」的「剪枝」类
+"""
+
+
 class regPrune:
     def __init__(self, tree, data_dict):
         """
         注意：「这里」所用的数据全都是「建树」时使用的那一部分「训练数据」，尚未使用 剩下的一部分「训练数据」。
 
-        你好，这里的 tree 是一个 Tree Class 的实例。
+        这里的 tree 是一个 Tree Class 的实例。
         class Node:
             def __init__(self, name = None, parent = None, left = None, right = None,
                                                 condition = None, ID = [], type='node', result=''):
@@ -136,16 +141,10 @@ class regPrune:
         """
         如果保留这个节点，算出 RSS
         这里涉及一个公式：
-
         RSS(T) >= RSS(TR) + RSS(TL)
-
-
         where T is the current node
-
-
         TR is the right node
         TL is the left node
-
         当我们剪树时，最先被剪掉的肯定是叶节点（也就是说我们每次剪掉的也只能是叶节点，直到剪成空树！「思考 」）
 
         :param node:
@@ -184,22 +183,21 @@ class regPrune:
 
         sum_a = 0
         count = 0
-
+        # 求平均值
         for i in result_list:
             sum_a = sum_a + i
             count = count + 1
         avg = sum_a / count
-
+        # 求Rss
         delta_square_sum_2 = 0
         for data in result_list:
             delta_square = (data - avg) ** 2
             delta_square_sum_2 = delta_square_sum_2 + delta_square
-
         return delta_square_sum_1 + delta_square_sum_2
 
     def RSST1(self, node):
         """
-        如果把这个节点变成叶子，算出 RSST1
+        如果把这个节点变成叶子，算出 RSST1，即方差
         :param node:
         :return:
         """
@@ -291,7 +289,6 @@ class regPrune:
             sums += self.guance(obj)
             nums += 1
         avg_score = str(sums / nums)
-
         # print(avg_score)
         node.result = str(avg_score)
         node.condition = ''

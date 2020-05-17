@@ -1,6 +1,10 @@
+"""
+classGrow classAsses 全部为自己编写。
+"""
+
 from classGrow import *
 from classAsses import *
-
+"""分类树主程序"""
 
 # Growing
 print('The tree is growing, wait a few seconds.')

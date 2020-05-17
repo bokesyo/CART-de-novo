@@ -1,7 +1,18 @@
 
 
 class Compiler:
+    """
+    这是我们自己编写的「决策树」编译器，可以把 树 object 编译成 含有一堆 if else 的 python 程序。
+    """
     def __init__(self, typ, tree, tree_id=0, address='default'):
+        """
+
+        :param typ: 回归树还是分类树
+        :param tree: 树 object
+        :param tree_id: 编号，可指定
+        :param address: 输出文件地址
+        """
+
         self.tree = tree
         if address == 'default':
             if typ == 'class':
@@ -10,18 +21,21 @@ class Compiler:
                 self.address = 'tmp/reg/exe' + str(tree_id) + '.py'
         else:
             self.address = address
+        # 清空现有文件
         self.fh = open(self.address, "w")
         self.fh.write('')  # clear the file
 
         self.fh = open(self.address, "a")
-
         self.indent = 0
         self.node_count = 0
-
         self.write_header()
         self.write_body(tree.root)
 
     def write_header(self):
+        """
+
+        :return: 先写入函数头
+        """
         # Open an empty python file
         # Write the header
         self.fh.write('def classifier(data_list):\n')
@@ -38,6 +52,11 @@ class Compiler:
         self.fh.write('    alcohol = data_list[10]\n')
 
     def write_body(self, node):
+        """
+
+        :param node: 给定一个节点
+        :return: 如果是叶节点，写上 return，不是叶子，写上 if xxx>111 和 else
+        """
         if node.type == 'terminal':
             result = node.result
             self.node_count += 1
@@ -64,10 +83,8 @@ class Compiler:
             pass
 
 
-from readData import *
-from classRef.localCache import *
-
-tree = local_cache('tmp/reg/forest/567')['tree']
-
-C = Compiler('reg', tree, 0, 'tmp/reg/exe.py')
+# from readData import *
+# from classRef.localCache import *
+# tree = local_cache('tmp/reg/forest/567')['tree']
+# C = Compiler('reg', tree, 0, 'tmp/reg/exe.py')
 

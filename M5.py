@@ -1,6 +1,10 @@
+"""
+这是我们自己编写的 M5 算法实现，主要由「多元线性回归」和一些「优化的步骤」实现。
+其中 矩阵的 「转置」、「乘法」、「求逆」是根据其他类似程序改编而来。
+"""
+
 from classRef.localCache import *
 from predictor import *
-from readData import *
 
 
 def transfer(matrix):
@@ -297,7 +301,7 @@ class OptRegress:
 class M5:
     def __init__(self, data_dict, start, end):
         """
-        M5 算法，提高回归树的性能。
+        M5 算法
         :param data_dict:
         """
         self.data_dict = data_dict
@@ -319,18 +323,18 @@ class M5:
             # print('3 ok')
 
     def main(self, node):
+        """
+        :param node: 给定一个节点
+        :return: 如果是叶子，就对他进行线性拟合
+        """
         if node.type == 'terminal':
             if len(node.ID) == 1:
                 return
-
             # print(self.n)
-
             self.n += 1
             self.R = OptRegress(node, self.data_dict)
-
             # Write new result into leaf
             node.result = self.R.string
-
             return
         else:
             if node.left:

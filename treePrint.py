@@ -1,6 +1,15 @@
+"""
+这是我们自己编写的 「决策树」 打印类
+
+localCache class is for storing our tree data
+
+画图基于 「turtle」库
+
+"""
+
+
 from classRef.localCache import *
 from turtle import *
-import time
 
 
 class Print:
@@ -16,12 +25,9 @@ class Print:
         self.tree.goto(0, 480)
         self.tree.pendown()
         update()
-
         data = local_cache(address)
-
         self.mid = data['tree']
         tree_root = self.mid.root
-
         tracer(0)
         self.tree.pencolor('blue')
         self.tree.write(tree_root.condition + '?')
@@ -32,18 +38,19 @@ class Print:
         k.parent = None
         self.drawTree(k)
         update()
-
         if out_address:
             self.screen_shot = None
             self.out_address = out_address
         ontimer(self.output, 5000)
-
+        # 画完了
         done()
 
+    # 输出文件
     def output(self):
         self.screen_shot = getscreen()
         self.screen_shot.getcanvas().postscript(file=self.out_address)
 
+    # 获取某节点的层数
     def getFloor(self, node):
         count = 0
         while node:
@@ -51,9 +58,11 @@ class Print:
             count += 1
         return count
 
+    # 计算间距
     def calFloor(self, n):
         return self.ext * (1/2) ** n
 
+    # 左节点向前
     def left_forward(self, node):
         self.tree.pensize(1)
         self.tree.pencolor('blue')
@@ -66,7 +75,6 @@ class Print:
         self.tree.fd(self.calFloor(n))
         self.tree.right(90)
         self.tree.fd(20)
-
         if node.type == 'terminal':
             self.tree.pencolor('white')
             self.tree.fd(20)
@@ -85,6 +93,7 @@ class Print:
             self.tree.fd(20)
             self.tree.write(condition)
 
+    # 左节点返回原处
     def left_back(self, node):
         n = self.getFloor(node)
         self.tree.penup()
@@ -100,6 +109,7 @@ class Print:
         self.tree.pendown()
         self.tree.right(180)
 
+    # 右节点向前
     def right_forward(self, node):
         self.tree.pencolor('red')
         self.tree.pensize(1)
@@ -112,7 +122,6 @@ class Print:
         self.tree.fd(self.calFloor(n))
         self.tree.left(90)
         self.tree.fd(20)
-
         if node.type == 'terminal':
             self.tree.pencolor('white')
             self.tree.fd(20)
@@ -131,6 +140,7 @@ class Print:
             self.tree.fd(20)
             self.tree.write(condition)
 
+    # 右节点后退
     def right_back(self, node):
         n = self.getFloor(node)
         self.tree.penup()
@@ -146,6 +156,7 @@ class Print:
         self.tree.pendown()
         self.tree.left(180)
 
+    # 总控，利用递归
     def drawTree(self, node):
         if node.left:
             self.left_forward(node.left)
@@ -158,5 +169,5 @@ class Print:
         return
 
 
-Print('reg', 'tmp/reg/forest/400')
+# Print('reg', 'tmp/reg/forest/400')
 

@@ -1,3 +1,7 @@
+"""
+用来评估分类树的表现
+"""
+
 from readData import *
 from predictor import *
 from classRef.localCache import *

@@ -1,3 +1,7 @@
+"""
+分类树的初级生长
+"""
+
 # 这是我们自己编写的数据读取程序
 from readData import *
 # This function is written by Peng, a member of our team

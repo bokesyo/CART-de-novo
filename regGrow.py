@@ -1,23 +1,31 @@
-# 这是我们自己编写的数据读取程序
+
+"""
+readData 是由我们自己编写的 CSV 读取程序
+treeClass 是我们自己编写的 树 类
+localCache 仅用来存储模型
+sys 调整最大递归次数
+"""
+
 from readData import *
-# 这是我们自己编写的树类
 from classRef.treeClass import *
-# Save tree object as a file
-# 请注意，这个库只是用来「存储」我们「生成的模型」，与决策树的生长没有任何关系。
 from classRef.localCache import *
-# 调整最大递归为无限大
 import sys
 sys.setrecursionlimit(999999)
 
 
 class regGrow:
     def __init__(self, in_address, out_address=None):
+        """
+        :param in_address: 输入「训练数据」地址
+        :param out_address:  「存储文件」地址
+        """
         self.data_dict = readCSV(in_address)
         self.tree = Tree()
         self.node_count = 1
+        # 是一个指标的名称
         self.pointer_name = ['fixed_acidity', 'volatile_acidity', 'citric_acid', 'residual_sugar', 'chlorides',
                              'free_sulfur_dioxide', 'total_sulfur_dioxide', 'density', 'pH', 'sulphates', 'alcohol']
-
+        # 所有酒的ID
         id_list = list(range(0, len(self.data_dict)))
         # Prepare a root node
         root_node = self.tree.add_root(self.node_count)
@@ -26,14 +34,24 @@ class regGrow:
         # Get initial split point and corresponding pointer
         back_initial = self.pointerChoose(self.data_dict, id_list, 's')
 
+        # 递归这个函数
         # Get started!
         self.grow(back_initial, id_list, root_node)
 
+        # 如果要求输出，则输出数据文件。
         if out_address:
             data = local_cache(out_address)
             data['tree'] = self.tree
 
     def grow(self, back, id_list, node, mode=None):
+        """
+        利用该函数的递归特性，完成树的构建
+        :param back: 上次判定的 本次「分裂指标和指标值」
+        :param id_list: 流经本节点的 红酒 ID 列表
+        :param node: 本节点的「父节点」
+        :param mode: 模式：左或者右
+        :return:
+        """
         pointer = back[0]
         cut_point = back[1]
         data_list_by_pointer = self.getIDData(pointer, id_list, self.data_dict)
@@ -57,25 +75,35 @@ class regGrow:
             else:
                 right_division_list.append(item[0])
 
+        # 写入分裂条件
         node.condition = str(self.pointer_name[back[0]]) + '<' + str(back[1])
+        # 完成
 
+        # 左节点生长
         self.node_count += 1
         node.left = Node(self.node_count, node, None, None, None, left_division_list)
         self.tree.size += 1
         back1 = self.pointerChoose(self.data_dict, left_division_list, 'l')
         self.grow(back1, left_division_list, node.left, 'l')
+        # 左节点生长完成
 
+        # 右节点生长
         self.node_count += 1
         node.right = Node(self.node_count, node, None, None, None, right_division_list)
         self.tree.size += 1
         back2 = self.pointerChoose(self.data_dict, right_division_list, 'r')
         self.grow(back2, right_division_list, node.right, 'r')
+        # 右节点生长完成
         return
 
     # 给定一个列表，「剔除」相同元素，并「排序」
     # 输入格式：一个列表[1, 8, 2, 2]
 
     def sortAndUnique(self, in_list):
+        """
+        :param in_list: 给定一个含有很多指标值的列表
+        :return: 剔除重复值，并按大小排序
+        """
         in_list = list(set(in_list))
         in_list.sort()
         return in_list
@@ -87,6 +115,10 @@ class regGrow:
     # 给定一个列表，返回平均值
     # 输入格式：一个列表[1, 3, 2, 3, 2]
     def average(self, in_list):
+        """
+        :param in_list: 任意列表
+        :return: 平均值
+        """
         if not in_list:
             return 0
         # print(in_list)
@@ -105,6 +137,10 @@ class regGrow:
     # 计算方差
     # 输入格式：一个列表[1, 3, 2, 3, 2]
     def squareError(self, target_list):
+        """
+        :param target_list: 任意列表
+        :return: 方差
+        """
         # print(target_list)
         avg = self.average(target_list)
         delta_square_sum = 0
@@ -119,6 +155,10 @@ class regGrow:
     # 输入格式：[某个指标的所有值]
     # 给定一个指标的所有数据，找出该指标最好的划分点
     def cutPointChoose(self, in_list):
+        """
+        :param in_list: 给定某个「指标」的所有可能分裂点
+        :return: 找出这个指标的「最佳分割点」
+        """
         # print(in_list)
         result_list = []
         # 准备切分点列表
@@ -144,7 +184,7 @@ class regGrow:
             # 加入列表
             cut_point_delta_square_pair = [cut_point, delta_square]
             result_list.append(cut_point_delta_square_pair)
-        # 找最小值
+        # 找 RSS 的最小值
         result_min = None
         for result in result_list:
             if not result_min:
@@ -159,6 +199,12 @@ class regGrow:
     #
     # 输入：指标代码，酒的编号列表
     def getPointerData(self, pointer_num, id_list, data_dict):
+        """
+        :param pointer_num: 我们选定了某个指标，例如 alcohol， alcohol 代号为 10
+        :param id_list: 给定酒的 ID 列表
+        :param data_dict: 总数据字典
+        :return: 把 这些酒的 某个指标 做成列表 并返回
+        """
         out_list = []
         for lid in id_list:
             list_by_id = data_dict[lid]
@@ -175,6 +221,12 @@ class regGrow:
 
     # 选择本轮最优指标
     def pointerChoose(self, data_dict, id_list, mode):
+        """
+        :param data_dict: 流过本节点的酒 ID 列表
+        :param id_list: 流过本节点的酒 ID 列表
+        :param mode: 模式
+        :return: 选出最佳分裂「指标」
+        """
         # 用来装入各个指标的方差的列表
         result_by_pointer_list = []
         # 生成可用指标列表
@@ -205,6 +257,13 @@ class regGrow:
     #
     # 输入指标代码，编号列表
     def getIDData(self, pointer_num, id_list, data_dict):
+        """
+
+        :param pointer_num: 我们选定了某个指标，例如 alcohol， alcohol 代号为 10
+        :param id_list: 流过本节点的酒 ID 列表
+        :param data_dict: 流过本节点的酒 ID 列表
+        :return:
+        """
         out_list = []
         for lid in id_list:
             list_by_id = data_dict[lid]
@@ -222,6 +281,11 @@ class regGrow:
     #
 
     def jufgeIfPure(self, in_list):
+        """
+        判断该节点内部数据是否 Pure
+        :param in_list: 一个列表 [指标值， 得分值]
+        :return: Bool
+        """
         # print(in_list)
         my_list = []
         for item in in_list:

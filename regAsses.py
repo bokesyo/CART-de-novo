@@ -1,6 +1,9 @@
-from readData import *
-from predictor import *
-from classRef.localCache import *
+"""
+回归树「评估」类
+treeClass 是自己编写的 树 类
+M5 为自己编写的 多变量线性回归 类
+"""
+
 from classRef.treeClass import *
 from M5 import *
 
@@ -25,6 +28,10 @@ class regAsses:
         self.calc()
 
     def calc(self):
+        """
+
+        :return: 计算 MSE ， MAE， Cor
+        """
         n = 0
         sum_delta_square = 0
         ae = 0
@@ -103,13 +110,6 @@ class regAsses:
             sum_y += y
         b = ((n * sum_x_y) - sum_x * sum_y) / (n * sum_x_x - sum_x ** 2)
         a = (sum_y - b * sum_x) / n
-
-        # print(n)
-        # print(sum_x, 'sumx')
-        # print(sum_x_x, 'sumxx')
-        # print(sum_y, 'sumy')
-        # print(sum_y_y, 'sumyy')
-        # print(sum_x_y, 'sumxy')
 
         r = (n * sum_x_y - sum_x * sum_y) / ((n * sum_x_x - sum_x ** 2) * (n * sum_y_y - sum_y ** 2)) ** 0.5
         self.cor = r
