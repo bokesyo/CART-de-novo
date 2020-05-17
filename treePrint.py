@@ -86,7 +86,8 @@ class Print:
                     self.tree.write('B')
                 pass
             elif self.type == 'reg':
-                text = '%.2f' % float(node.result)
+                text = node.result
+                # text = '%.2f' % float(node.result)
                 self.tree.write(text)
         else:
             self.tree.fd(20)
@@ -133,7 +134,7 @@ class Print:
                     self.tree.write('B')
                 pass
             elif self.type == 'reg':
-                text = '%.2f' % float(node.result)
+                text = node.result
                 self.tree.write(text)
         else:
             self.tree.fd(20)
@@ -169,5 +170,5 @@ class Print:
         return
 
 
-# Print('reg', 'tmp/reg/forest/400')
+# Print('reg', 'tmp/reg/forest/551', 'result/1.eps')
 

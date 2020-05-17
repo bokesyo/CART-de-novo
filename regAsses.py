@@ -6,11 +6,12 @@ M5 为自己编写的 多变量线性回归 类
 
 from classRef.treeClass import *
 from M5 import *
+from readData import *
+from classRef.localCache import *
 
 
 class regAsses:
     def __init__(self, in_address, tree):
-
         self.data_dict = readCSV(in_address)
         if isinstance(tree, Tree):
             self.tree = tree
@@ -114,3 +115,8 @@ class regAsses:
         r = (n * sum_x_y - sum_x * sum_y) / ((n * sum_x_x - sum_x ** 2) * (n * sum_y_y - sum_y ** 2)) ** 0.5
         self.cor = r
 
+
+# tree = local_cache('tmp/reg/forest/'+str(495))['tree']
+# a = regAsses('inputData/test.csv', tree)
+
+# print(a.mse)

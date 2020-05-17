@@ -1,0 +1,51 @@
+Dear TA:
+
+To run our program, you    「only」     need to run   「regMain.py」
+
+0. It will automatically import all data from /inputData/partial_train.csv(80% of all trainng data)
+                                                      remain_train.csv(20% of all trainng data)
+                                                      test.csv
+
+1. It will give a model using CART without pruning, and MSE
+
+2. It will then use Weakest Link Pruning and cross validation to giving you a optimized tree, and MSE
+
+3. It will then test the model over testing dataset and give you a MSE
+
+4. It will then use M5' algorithm to improve the model, and give you a optimized tree and MSE
+
+5. Then it will generate a function which can help you implement the model and output to /result/regressionTreeExecute.py
+
+6. Then it will draw a graph of decision tree an output to /result/regressionTreeGraph.eps
+
+7. All the tree object will be stored in /tmp/reg/forest/ (in .db form)
+
+
+
+"""
+If you want to know more about our program, you can refer to:
+
+(The following modules will not run by themselves, you should call it in other program)
+
+Compiler:
+    compile.py
+
+M5 Algorithm:
+    M5.py
+
+CSV reader:
+    readData.py
+
+Assessment Moduel:
+    regAsses.py
+
+Regression Tree Grow Module:
+    regGrow.py
+
+Tree Printer:
+    treePrint.py
+
+Tree Pruner:
+    regPrune.py
+
+"""

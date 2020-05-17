@@ -92,11 +92,15 @@ A = regAsses('inputData/test.csv', tree)
 print(optimal[0], 'th tree is the optimal tree, MSE is', A.mse)
 print('Testing finished.')
 
+print('Now we are to use M5 algorithm to improve the performance! Before that we will '
+      'draw a picture of the optimized tree!')
+
+Print('reg', 'tmp/reg/forest/' + str(optimal[0]), 'result/regressionTreeGraphWeakestLinkPrune.eps')
 
 # 利用「M5' 算法」进行性能提升
 input('Press Enter to apply M5 algorithm to improve our model.')
-# 560 - 592 是最合理的区间，可以大大节省运算量
-m5 = M5(data_dict, 560, 592)
+
+m5 = M5(data_dict, m - 50, m - 1)
 result_list = m5.mse_list
 # 选出最优化模型
 min_mse = None
@@ -115,7 +119,7 @@ for s in result_list:
     A = regAsses('inputData/remain_train.csv', tree)
     print('By using M5 algorithm,', s[0], 'th tree MSE is', A.mse)
 
-
+print('>>>>', result_list)
 # 根据 MSE 最小原理，选出最优模型，进行最终测试。
 optimal = None
 for tup in result_list:
@@ -124,6 +128,7 @@ for tup in result_list:
     else:
         if tup[1] < optimal[1]:
             optimal = tup
+
 print(optimal[0], 'th M5 tree is the optimized tree with a MSE of ', optimal[1])
 
 tree = local_cache('tmp/reg/forest/' + str(optimal[0]))['tree']
@@ -131,19 +136,15 @@ A = regAsses('inputData/test.csv', tree)
 print('By using M5 algorithm, final MSE is', A.mse)
 
 
-# 把「最优树」编译成「python程序」
-input('Press Enter to compile our model into python program...')
-C = Compiler('reg', tree, 0, 'tmp/reg/regressionTreeExecution.py')
-print('The python program has been saved into tmp/reg/regressionTreeExecution.py')
+print('If you want to compile the tree object into a python program, please refer to compile.py written by us!')
+print('If you want to print the tree object as a graph, please refer to treePrint.py written by us!')
+print('We have provided a python program for you , it is in result/regressionTreeExecute.py')
+print('We have provided a graph of decision tree for you , it is in result/regressionTreeGraph.eps')
 
 
-# 回归树的画图
-input('Press Enter to draw a graph of final tree...')
-D = Print('type', 'tmp/reg/forest/' + str(optimal[0]), 'tmp/reg/graph.eps')
-print('The program is over.')
+tree = local_cache('tmp/reg/forest/' + str(optimal[0]))['tree']
+C = Compiler('reg', tree, 0, 'result/regressionTreeExecution.py')
 
 
-# 退出程序
-input('Press enter to exit...')
-exit()
+Print('reg', 'tmp/reg/forest/' + str(optimal[0]), 'result/regressionTreeGraphM5.eps')
 
