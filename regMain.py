@@ -144,7 +144,3 @@ print('We have provided a graph of decision tree for you , it is in result/regre
 
 tree = local_cache('tmp/reg/forest/' + str(optimal[0]))['tree']
 C = Compiler('reg', tree, 0, 'result/regressionTreeExecution.py')
-
-
-Print('reg', 'tmp/reg/forest/' + str(optimal[0]), 'result/regressionTreeGraphM5.eps')
-

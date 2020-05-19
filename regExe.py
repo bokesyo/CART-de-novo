@@ -5,6 +5,7 @@ M5 ： 自己编写的 「多元线性回归」类
 """
 
 from M5 import *
+from readData import *
 from compile import *
 
 
@@ -59,9 +60,9 @@ def corr(list1, list2):
     return r
 
 
-data_dict = readCSV('inputData/train.csv')
+data_dict = readCSV('inputData/partial_train.csv')
 
-test_dict = readCSV('inputData/test.csv')
+test_dict = readCSV('inputData/remain_train.csv')
 
 R = Regress(data_dict)
 print(R.beta)
